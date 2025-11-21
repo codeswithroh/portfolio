@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit Purkait | Senior Developer</title>
+    
+    <!-- Fonts: Space Mono for that Technical/Code aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050505;
+            --fg: #f0f0f0;
+            --accent: #444;
+            --font-stack: 'Space Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-stack);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* --- WebGL Canvas --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- Layout --- */
+        main {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 0;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            margin-left: 20%; /* Offset layout */
+            padding-left: 40px;
+            position: relative;
+        }
+
+        /* --- Typography --- */
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 2rem;
+            mix-blend-mode: difference;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--fg);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            max-width: 600px;
+            margin-bottom: 1.5rem;
+            color: #ccc;
+        }
+
+        a {
+            color: var(--fg);
+            text-decoration: none;
+            border-bottom: 1px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            background: var(--fg);
+            color: var(--bg);
+        }
+
+        /* --- Components --- */
+        .tag {
+            font-size: 0.8rem;
+            border: 1px solid var(--accent);
+            padding: 2px 8px;
+            border-radius: 50px;
+            margin-right: 8px;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .experience-item, .achievement-item {
+            margin-bottom: 4rem;
+        }
+
+        .date {
+            font-size: 0.8rem;
+            color: #888;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .role {
+            font-weight: 700;
+        }
+
+        /* --- Collaboration Section Specifics --- */
+        #contact {
+            border-left: 1px solid rgba(255,255,255,0.1);
+            /* Add top border to make it feel like a distinct block */
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            margin-top: 5vh;
+            min-height: 60vh; /* Slightly shorter than other sections */
+        }
+
+        #contact h2 {
+            border-bottom: none;
+            text-transform: lowercase; /* Matching reference image vibe */
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        #contact p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            max-width: 700px;
+            color: #aaa;
+        }
+
+        .x-link {
+            font-style: italic;
+            font-weight: 700;
+            border-bottom: 2px solid var(--fg);
+        }
+
+        /* --- Utility --- */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        /* Mobile adjustment */
+        @media (max-width: 768px) {
+            section {
+                margin-left: 0;
+                border-left: none;
+                padding-left: 0;
+            }
+            h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- WEBGL LAYER -->
+    <div id="canvas-container"></div>
+
+    <!-- DOM CONTENT LAYER -->
+    <main>
+        <!-- HERO -->
+        <section id="hero">
+            <p class="tag">/// PORTFOLIO_2025</p>
+            <h1>Rohit<br>Purkait</h1>
+            <p>Senior Software & Application Developer based in Kolkata.<br>
+            Specializing in Web3, Blockchain, and High-Performance Backend Systems.</p>
+            <div style="margin-top: 2rem;">
+                <a href="mailto:codeswithroh@gmail.com">codeswithroh@gmail.com</a>
+                <span style="margin: 0 10px;">//</span>
+                <a href="https://github.com" target="_blank">Github</a>
+                <span style="margin: 0 10px;">//</span>
+                <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            </div>
+        </section>
+
+        <!-- ACHIEVEMENTS -->
+        <section id="achievements">
+            <h2>// Global Recognition</h2>
+            
+            <div class="achievement-item">
+                <h3>🏆 Winner of ETH Global</h3>
+                <p class="date">Project: Offgrid Pay</p>
+                <p>Revolutionizing payments without internet access. Recognized by top industry leaders in the Ethereum ecosystem.</p>
+                <a href="https://ethglobal.com/showcase/offgrid-pay-xu4jb" target="_blank">View Project Case Study &rarr;</a>
+            </div>
+
+            <div class="achievement-item">
+                <h3>🏆 Winner of Forte Hacks by Flow</h3>
+                <p class="date">Project: FlowSure</p>
+                <p>Built with Disney, Dune, and Dapper. A breakthrough in blockchain automation and security.</p>
+                <a href="https://www.hackquest.io/projects/Forte-Hacks-by-Flow-Build-with-Disney-Dune-and-Dapper-FlowSure" target="_blank">View Project Case Study &rarr;</a>
+            </div>
+
+            <div class="achievement-item">
+                <h3>🏆 Jury Recommendation Award</h3>
+                <p class="date">National Hackathon by SEBI</p>
+                <p>Recognized for innovation in financial technology regulation.</p>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience">
+            <h2>// Work Log</h2>
+
+            <div class="experience-item">
+                <span class="date">May 2024 - Present</span>
+                <h3>Full Stack Developer @ Metaborong</h3>
+                <p>Developing Web3 & Blockchain architectures. Optimized Next.js/NestJS backends resulting in a 30% performance surge.</p>
+                <div><span class="tag">NextJS</span><span class="tag">NestJS</span><span class="tag">Web3</span></div>
+            </div>
+
+            <div class="experience-item">
+                <span class="date">Sep 2021 - Jul 2024</span>
+                <h3>SDE 1 @ Traxsmart</h3>
+                <p>Implemented real-time vehicle tracking for state government. Led optimization for seamless web apps serving 50+ team members.</p>
+                <div><span class="tag">MERN</span><span class="tag">Real-time Systems</span></div>
+            </div>
+
+            <div class="experience-item">
+                <span class="date">Jun 2022 - May 2024</span>
+                <h3>SDE 1 @ PredictRAM</h3>
+                <p>Built automated financial research platforms for SEBI registered analysts. Led a team of 20 to ship cross-platform mobile apps.</p>
+            </div>
+        </section>
+
+        <!-- SKILLS & EDUCATION -->
+        <section id="about">
+            <h2>// Data & Specs</h2>
+            
+            <div style="margin-bottom: 3rem;">
+                <h3>Education</h3>
+                <div style="margin-bottom: 1rem;">
+                    <p class="role">IIT Madras</p>
+                    <p class="date">BS in Data Science (GPA: 9.2) | 2022 - 2025</p>
+                </div>
+                <div>
+                    <p class="role">Techno Main Saltlake</p>
+                    <p class="date">B.Tech Electrical Engineering (GPA: 8.6) | 2020 - 2024</p>
+                </div>
+            </div>
+
+            <div>
+                <h3>Tech Stack</h3>
+                <p>
+                    <span class="tag">React/NextJS</span>
+                    <span class="tag">Node/NestJS</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">System Design</span>
+                    <span class="tag">Blockchain/Web3</span>
+                    <span class="tag">AWS/GCP/Azure</span>
+                    <span class="tag">Java</span>
+                    <span class="tag">Flutter</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- NEW CONTACT / COLLABORATION SECTION -->
+        <section id="contact">
+            <h2>are you building on ai or web3?</h2>
+            <p>
+                have a great idea and looking to collaborate? i'd love to help build it. 
+                whether you're building on ai, web3 or any other cutting-edge technology, 
+                i can help you turn your vision into a reality. let's work together and build something amazing!
+            </p>
+            <p style="margin-top: 2rem; color: var(--fg);">
+                message me on x at <a href="https://x.com/codeswithroh" target="_blank" class="x-link">@codeswithroh</a>.
+            </p>
+        </section>
+        
+        <div class="scroll-indicator">SCROLL TO EXPLORE</div>
+    </main>
+
+    <!-- DEPENDENCIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
+
+    <!-- LOGIC -->
+    <script>
+        // --- 1. SETUP & BOILERPLATE ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 2.5;
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        // --- 2. SHADER CODE (Bayer Matrix + Noise) ---
+        const vertexShader = `
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            uniform float uTime;
+            uniform float uDistort;
+
+            vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+            vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+            vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+            float snoise(vec3 v) {
+                const vec2  C = vec2(1.0/6.0, 1.0/3.0) ;
+                const vec4  D = vec4(0.0, 0.5, 1.0, 2.0);
+                vec3 i  = floor(v + dot(v, C.yyy) );
+                vec3 x0 = v - i + dot(i, C.xxx) ;
+                vec3 g = step(x0.yzx, x0.xyz);
+                vec3 l = 1.0 - g;
+                vec3 i1 = min( g.xyz, l.zxy );
+                vec3 i2 = max( g.xyz, l.zxy );
+                vec3 x1 = x0 - i1 + C.xxx;
+                vec3 x2 = x0 - i2 + C.yyy; 
+                vec3 x3 = x0 - D.yyy;
+                i = mod289(i);
+                vec4 p = permute( permute( permute( 
+                         i.z + vec4(0.0, i1.z, i2.z, 1.0 ))
+                       + i.y + vec4(0.0, i1.y, i2.y, 1.0 )) 
+                       + i.x + vec4(0.0, i1.x, i2.x, 1.0 ));
+                float n_ = 0.142857142857; 
+                vec3  ns = n_ * D.wyz - D.xzx;
+                vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+                vec4 x_ = floor(j * ns.z);
+                vec4 y_ = floor(j - 7.0 * x_ );
+                vec4 x = x_ *ns.x + ns.yyyy;
+                vec4 y = y_ *ns.x + ns.yyyy;
+                vec4 h = 1.0 - abs(x) - abs(y);
+                vec4 b0 = vec4( x.xy, y.xy );
+                vec4 b1 = vec4( x.zw, y.zw );
+                vec4 s0 = floor(b0)*2.0 + 1.0;
+                vec4 s1 = floor(b1)*2.0 + 1.0;
+                vec4 sh = -step(h, vec4(0.0));
+                vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy ;
+                vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww ;
+                vec3 p0 = vec3(a0.xy,h.x);
+                vec3 p1 = vec3(a0.zw,h.y);
+                vec3 p2 = vec3(a1.xy,h.z);
+                vec3 p3 = vec3(a1.zw,h.w);
+                vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+                p0 *= norm.x;
+                p1 *= norm.y;
+                p2 *= norm.z;
+                p3 *= norm.w;
+                vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+                m = m * m;
+                return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1), 
+                                              dot(p2,x2), dot(p3,x3) ) );
+            }
+
+            void main() {
+                vNormal = normal;
+                float noiseVal = snoise(position * 2.0 + uTime * 0.5);
+                vec3 newPos = position + normal * noiseVal * uDistort;
+                vPosition = newPos;
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(newPos, 1.0);
+            }
+        `;
+
+        const fragmentShader = `
+            varying vec3 vNormal;
+            varying vec3 vPosition;
+            uniform float uResolution;
+
+            float bayer(vec2 pos) {
+                int x = int(mod(pos.x, 4.0));
+                int y = int(mod(pos.y, 4.0));
+                if(x == 0) { if(y == 0) return 0.0/16.0; if(y == 1) return 8.0/16.0; if(y == 2) return 2.0/16.0; if(y == 3) return 10.0/16.0; }
+                else if(x == 1) { if(y == 0) return 12.0/16.0; if(y == 1) return 4.0/16.0; if(y == 2) return 14.0/16.0; if(y == 3) return 6.0/16.0; }
+                else if(x == 2) { if(y == 0) return 3.0/16.0; if(y == 1) return 11.0/16.0; if(y == 2) return 1.0/16.0; if(y == 3) return 9.0/16.0; }
+                else { if(y == 0) return 15.0/16.0; if(y == 1) return 7.0/16.0; if(y == 2) return 13.0/16.0; if(y == 3) return 5.0/16.0; }
+                return 0.5;
+            }
+
+            void main() {
+                vec3 lightDir = normalize(vec3(1.0, 1.0, 2.0));
+                float diff = dot(normalize(vNormal), lightDir);
+                float intensity = diff * 0.5 + 0.5;
+                float threshold = bayer(gl_FragCoord.xy);
+                
+                vec3 finalColor = vec3(0.0); // Black background
+                if(intensity > threshold) {
+                    finalColor = vec3(0.94, 0.94, 0.94); // White
+                }
+                gl_FragColor = vec4(finalColor, 1.0);
+            }
+        `;
+
+        // --- 3. OBJECT CREATION ---
+        const geometry = new THREE.IcosahedronGeometry(1, 60); 
+        const uniforms = {
+            uTime: { value: 0 },
+            uDistort: { value: 0.2 },
+            uResolution: { value: window.devicePixelRatio }
+        };
+        const material = new THREE.ShaderMaterial({
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader,
+            uniforms: uniforms,
+            wireframe: false
+        });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+
+        // --- 4. ANIMATION ---
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+        const clock = new THREE.Clock();
+
+        function animate() {
+            const time = clock.getElapsedTime();
+            uniforms.uTime.value = time;
+            sphere.rotation.y += 0.002;
+            sphere.rotation.x += 0.001;
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Scroll Interactions
+        ScrollTrigger.create({
+            trigger: "#achievements",
+            start: "top bottom",
+            end: "bottom top",
+            onUpdate: (self) => {
+                gsap.to(uniforms.uDistort, { value: 0.2 + (self.progress * 0.3), duration: 0.5 });
+                sphere.rotation.y += 0.05; 
+            }
+        });
+
+        // Move sphere right during Experience
+        gsap.to(sphere.position, {
+            x: 1.2,
+            scrollTrigger: {
+                trigger: "#experience",
+                start: "top center",
+                end: "bottom center",
+                scrub: 1
+            }
+        });
+
+        // Move sphere back to center for Contact/Footer
+        gsap.to(sphere.position, {
+            x: 0,
+            y: 0,
+            scrollTrigger: {
+                trigger: "#contact",
+                start: "top bottom",
+                end: "bottom bottom",
+                scrub: 1
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            uniforms.uResolution.value = window.devicePixelRatio;
+        });
+    </script>
+</body>
+</html>
