@@ -13,6 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 
     <style>
+        @view-transition { navigation: auto; }
+
         :root {
             --bg: #050505;
             --fg: #f0f0f0;
@@ -136,6 +138,59 @@
             border-color: var(--accent);
             color: var(--accent);
             background: var(--accent-dim);
+        }
+
+        /* ─── PROOF OF WORK CTA ─── */
+        .pow-cta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 32px;
+            padding: 20px 24px;
+            border: 1px solid var(--dim);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .pow-cta::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
+        }
+        .pow-cta:hover {
+            border-color: rgba(161,255,98,0.35);
+            transform: translateY(-2px);
+        }
+        .pow-cta:hover::before { transform: scaleX(1); }
+
+        .pow-cta-text { display: flex; flex-direction: column; gap: 6px; }
+        .pow-cta-label {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            color: var(--fg);
+        }
+        .pow-cta-sub {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.03em;
+        }
+        .pow-cta-arrow {
+            font-size: 18px;
+            color: var(--accent);
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        .pow-cta:hover .pow-cta-arrow { transform: translateX(6px); }
+
+        @media (max-width: 480px) {
+            .pow-cta { flex-direction: column; align-items: flex-start; gap: 10px; }
         }
 
         .cursor {
@@ -527,9 +582,16 @@
             <a href="https://github.com/codeswithroh" target="_blank">GitHub</a>
             <a href="https://linkedin.com/in/rohitpurkait" target="_blank">LinkedIn</a>
             <a href="https://x.com/codeswithroh" target="_blank">X / Twitter</a>
-            <a href="proof-of-work.html">Proof of Work ↗</a>
             <a href="https://cofoundrs.fun" target="_blank">cofoundr ↗</a>
         </div>
+
+        <a class="pow-cta" href="proof-of-work.html">
+            <div class="pow-cta-text">
+                <span class="pow-cta-label">See my Proof of Work — DevRel &amp; Video Content</span>
+                <span class="pow-cta-sub">6 videos · technical builds · sponsor integrations · own-product launch</span>
+            </div>
+            <span class="pow-cta-arrow">→</span>
+        </a>
     </section>
 
     <!-- ─── CURRENTLY BUILDING ─── -->
