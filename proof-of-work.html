@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit Purkait — DevRel &amp; Video Content Proof of Work</title>
+    <meta name="description" content="Six short-form videos — technical explainers, sponsor integrations, a live on-chain build, and a self-launched product. Proof I can create video content, build an audience, and go deep technically.">
+    <meta property="og:title" content="Rohit Purkait — Proof of Work">
+    <meta property="og:description" content="DevRel & video content proof of work: technical explainers, sponsor integrations, and a self-launched product.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #050505;
+            --fg: #f0f0f0;
+            --muted: #666;
+            --dim: #333;
+            --accent: #a1ff62;
+            --accent-dim: rgba(161, 255, 98, 0.08);
+            --border: rgba(255,255,255,0.08);
+            --font: 'Space Mono', monospace;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--font);
+            font-size: 13px;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        main {
+            position: relative;
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        section:last-child { border-bottom: none; }
+
+        .section-label {
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ─── TOP NAV ─── */
+        .top-nav {
+            padding: 28px 32px 0;
+            max-width: 1040px;
+            margin: 0 auto;
+        }
+        .back-link {
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent); }
+
+        /* ─── HERO ─── */
+        #hero { padding: 70px 0 90px; }
+
+        .hero-eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .hero-eyebrow span { color: var(--accent); }
+
+        h1 {
+            font-size: clamp(2.6rem, 7vw, 4.6rem);
+            line-height: 0.98;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 24px;
+            max-width: 780px;
+        }
+        h1 .accent { color: var(--accent); }
+
+        .hero-tagline {
+            font-size: 13px;
+            color: #999;
+            max-width: 580px;
+            margin-bottom: 36px;
+            line-height: 1.85;
+        }
+
+        .capability-row { display: flex; flex-wrap: wrap; gap: 8px; }
+        .capability-tag {
+            font-size: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid var(--dim);
+            padding: 7px 14px;
+            color: #aaa;
+        }
+
+        /* ─── BENTO GRID ─── */
+        .bento {
+            column-count: 2;
+            column-gap: 20px;
+        }
+        .bento-item {
+            break-inside: avoid;
+            -webkit-column-break-inside: avoid;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            padding: 24px;
+            position: relative;
+            transition: border-color 0.3s;
+        }
+        .bento-item:hover { border-color: rgba(161,255,98,0.3); }
+        .bento-item.anchor {
+            column-span: all;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
+            padding: 32px;
+        }
+        .bento-item.anchor::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: var(--accent);
+        }
+
+        .card-badge {
+            display: inline-block;
+            font-size: 9px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            border: 1px solid var(--dim);
+            color: #999;
+        }
+        .card-badge.build { color: var(--accent); border-color: rgba(161,255,98,0.4); }
+        .card-badge.explainer { color: #7eb3ff; border-color: rgba(126,179,255,0.4); }
+        .card-badge.reaction { color: #f5a623; border-color: rgba(245,166,35,0.4); }
+        .card-badge.launch { background: var(--accent); color: #000; border: none; }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
+        }
+        .card-sub {
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+            margin-bottom: 14px;
+            display: block;
+        }
+        .card-desc {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.65;
+            margin-bottom: 18px;
+        }
+        .card-embed {
+            border: 1px solid var(--dim);
+            background: #0a0a0a;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .twitter-tweet { margin: 0 !important; }
+
+        /* ─── IMPACT / CAPABILITY PROOF ─── */
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+        .proof-item {
+            background: var(--bg);
+            padding: 26px 28px;
+        }
+        .proof-item h3 {
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .proof-item p {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.7;
+        }
+
+        /* ─── CONTACT ─── */
+        #contact { border-bottom: none; }
+        .contact-inner { max-width: 640px; }
+        .contact-heading {
+            font-size: clamp(1.6rem, 4.5vw, 2.6rem);
+            letter-spacing: -1.5px;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 22px;
+        }
+        .contact-sub {
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        .contact-links { display: flex; flex-wrap: wrap; gap: 8px; }
+        .contact-link {
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid var(--dim);
+            padding: 8px 18px;
+            transition: all 0.2s;
+            color: #aaa;
+        }
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-dim);
+        }
+
+        footer {
+            padding: 32px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 720px) {
+            main { padding: 0 20px; }
+            .top-nav { padding: 24px 20px 0; }
+            h1 { font-size: 2.4rem; letter-spacing: -1px; }
+            .bento { column-count: 1; }
+            .bento-item.anchor { grid-template-columns: 1fr; }
+            .proof-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="top-nav">
+    <a class="back-link" href="index.html">← Rohit Purkait</a>
+</nav>
+
+<main>
+
+    <!-- ─── HERO ─── -->
+    <section id="hero">
+        <p class="hero-eyebrow">/// <span>PROOF_OF_WORK</span></p>
+        <h1>DevRel &amp;<br>Video <span class="accent">Content.</span></h1>
+        <p class="hero-tagline">
+            Six videos I wrote, filmed, edited, and posted solo — no team, no agency.
+            They span technical explainers, sponsor integrations, a same-day news reaction,
+            and a fully working on-chain build made *as* the content. This is what I'd bring
+            to a DevRel or video-content role.
+        </p>
+        <div class="capability-row">
+            <span class="capability-tag">Technical Depth</span>
+            <span class="capability-tag">Sponsor-Ready</span>
+            <span class="capability-tag">Fast Turnaround</span>
+            <span class="capability-tag">Own-Product Launches</span>
+            <span class="capability-tag">Solo End-to-End</span>
+        </div>
+    </section>
+
+    <!-- ─── BENTO GRID ─── -->
+    <section id="videos">
+        <p class="section-label">The Work</p>
+
+        <div class="bento">
+
+            <!-- cofoundr — anchor card -->
+            <div class="bento-item anchor">
+                <div>
+                    <span class="card-badge launch">Founder-Led Launch</span>
+                    <h3 class="card-title">cofoundr — from idea to launch video, solo</h3>
+                    <span class="card-sub">x.com/codeswithroh · Product launch</span>
+                    <p class="card-desc">
+                        Not just talking about someone else's product — this is the launch video for my own:
+                        an AI co-founder matching agent I built and shipped. Wrote the hook, filmed it,
+                        edited it, and posted it myself. Full funnel, no hand-off.
+                    </p>
+                </div>
+                <div class="card-embed">
+                    <blockquote class="twitter-tweet" data-theme="dark">
+                        <a href="https://twitter.com/codeswithroh/status/2046205861383807471"></a>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- Fhenix — technical build -->
+            <div class="bento-item">
+                <span class="card-badge build">Technical Build</span>
+                <h3 class="card-title">FHE Liar's Dice on Fhenix CoFHE</h3>
+                <span class="card-sub">x.com/codeswithroh · Encrypted on-chain game</span>
+                <p class="card-desc">
+                    The content isn't a demo of someone else's feature — it's a working game I built.
+                    Dice rolls stay fully encrypted on-chain via CoFHE; not even the smart contract can
+                    see them until the reveal. Built to make "confidential compute" tangible instead of abstract.
+                </p>
+                <div class="card-embed">
+                    <blockquote class="twitter-tweet" data-theme="dark">
+                        <a href="https://twitter.com/codeswithroh/status/2085351218965078346"></a>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- Sera Protocol — technical explainer -->
+            <div class="bento-item">
+                <span class="card-badge explainer">Technical Explainer</span>
+                <h3 class="card-title">Fixing 1970s cross-border payment rails</h3>
+                <span class="card-sub">x.com/codeswithroh · Sera Protocol</span>
+                <p class="card-desc">
+                    Broke down how Sera replaces the correspondent-banking chain with on-chain settlement —
+                    peer-to-peer FX, real interbank rates, verifiable transfers. Infra-level explainer,
+                    not a surface-level sponsor read.
+                </p>
+                <div class="card-embed">
+                    <blockquote class="twitter-tweet" data-theme="dark">
+                        <a href="https://twitter.com/codeswithroh/status/2086804614146666926"></a>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- Willow Voice AI — sponsored integration -->
+            <div class="bento-item">
+                <span class="card-badge">Sponsored Integration</span>
+                <h3 class="card-title">Willow Voice — voice-to-text that replaced typing</h3>
+                <span class="card-sub">x.com/codeswithroh · Tool breakdown</span>
+                <p class="card-desc">
+                    Showed Willow woven into a real daily workflow — ChatGPT, Gmail, Slack, even coding —
+                    instead of a feature list. Framed around the "typing feels slow now" reaction, which
+                    is the outcome sponsors actually want.
+                </p>
+                <div class="card-embed">
+                    <blockquote class="twitter-tweet" data-theme="dark">
+                        <a href="https://twitter.com/codeswithroh/status/2086375097187877121"></a>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- local.ai — tutorial -->
+            <div class="bento-item">
+                <span class="card-badge explainer">Tutorial</span>
+                <h3 class="card-title">Picking the right local LLM without guessing</h3>
+                <span class="card-sub">x.com/codeswithroh · local.ai</span>
+                <p class="card-desc">
+                    Started from a real failure state — a frozen system from downloading the wrong Ollama
+                    model — then walked through what actually matters (RAM, storage, GPU, use case) and
+                    how local.ai removes the guesswork. Problem-first, not product-first.
+                </p>
+                <div class="card-embed">
+                    <blockquote class="twitter-tweet" data-theme="dark">
+                        <a href="https://twitter.com/codeswithroh/status/2088925623779799475"></a>
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- OpenAI Health — rapid reaction -->
+            <div class="bento-item">
+                <span class="card-badge reaction">Rapid Reaction</span>
+                <h3 class="card-title">OpenAI Health, explained same-day</h3>
+                <span class="card-sub">x.com/codeswithroh · News breakdown</span>
+                <p class="card-desc">
+                    Turned around a clear breakdown of OpenAI's Health launch — what it connects to,
+                    what it does, and the real question underneath it (would you trust AI with your
+                    medical history) — while it was still the news of the day.
+                </p>
+                <div class="card-embed">
+                    <blockquote class="twitter-tweet" data-theme="dark">
+                        <a href="https://twitter.com/codeswithroh/status/2087534144523804705"></a>
+                    </blockquote>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ─── WHAT THIS PROVES ─── -->
+    <section id="proof">
+        <p class="section-label">What This Actually Proves</p>
+        <div class="proof-grid">
+            <div class="proof-item">
+                <h3>Builder, not just narrator</h3>
+                <p>The Fhenix video isn't a demo of someone else's feature — I built the game.
+                When I explain a technical concept, I've usually shipped something with it first.</p>
+            </div>
+            <div class="proof-item">
+                <h3>Sponsor-ready, repeatedly</h3>
+                <p>Willow, Sera, local.ai, and Fhenix are four independent integrations —
+                different products, different niches, same ability to land the hook and the technical detail.</p>
+            </div>
+            <div class="proof-item">
+                <h3>News-speed turnaround</h3>
+                <p>The OpenAI Health breakdown went out the same day the feature launched.
+                DevRel often means reacting fast without sacrificing accuracy — this is that muscle.</p>
+            </div>
+            <div class="proof-item">
+                <h3>Full-funnel, solo</h3>
+                <p>cofoundr's launch video — hook, script, edit, post — was entirely mine.
+                No dependency on a video team to get content out the door.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── CONTACT ─── -->
+    <section id="contact">
+        <div class="contact-inner">
+            <p class="section-label">Let's Talk</p>
+            <h2 class="contact-heading">Need video content or<br>DevRel for your product?</h2>
+            <p class="contact-sub">
+                I write, film, edit, and post — technical or top-of-funnel, sponsor read or original build.
+                Open to DevRel and video-content roles, and one-off integrations.
+            </p>
+            <div class="contact-links">
+                <a class="contact-link" href="mailto:rohitpurkait001@gmail.com">rohitpurkait001@gmail.com</a>
+                <a class="contact-link" href="https://x.com/codeswithroh" target="_blank">@codeswithroh</a>
+                <a class="contact-link" href="https://linkedin.com/in/rohitpurkait" target="_blank">LinkedIn</a>
+                <a class="contact-link" href="index.html">← Back to Portfolio</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>ROHIT PURKAIT · PROOF OF WORK · 2026</footer>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+</body>
+</html>
