@@ -2,6 +2,7 @@
 import { copyFileSync, mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { projects, categories } from './projects.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -12,6 +13,8 @@ const EMAIL = 'rohitpurkait001@gmail.com';
 const imageRank = ['nightfall', 'klyro', 'bhoot', 'streamreach', 'pitch-video', 'tastemaker', 'tape-verified', 'foundrproof', 'pakka', 'hall-monitor', 'handshake', 'overturn', 'mergepay', 'tracegate', 'drift', 'sextant', 'cofoundr', 'hourglass', 'baad-mein', 'capp', 'will-eth', 'yoldr', 'lumenshield'];
 const rank = (p) => { const i = imageRank.indexOf(p.slug); return i >= 0 ? i : existsSync(join(root, `assets/shots/${p.slug}.webp`)) ? imageRank.length : imageRank.length + 1; };
 projects.sort((a, b) => rank(a) - rank(b));
+// Assets are cached for a week, so the URL has to change with the content.
+const ver = (f) => createHash('md5').update(readFileSync(join(root, 'src', f))).digest('hex').slice(0, 8);
 const facts = { stars: 509, forks: 53, repos2026: 65, chains: 18, hackathons: 20 };
 
 const links = {
@@ -105,7 +108,7 @@ function layout({ path, title, desc, body, jsonld = [], active, og = '/assets/og
 <link rel="me" href="${links.github}">
 <link rel="me" href="${links.x}">
 <link rel="preload" href="/assets/fonts/zodiak-italic-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v=${ver('site.css')}">
 ${jsonld.map(ld).join('\n')}
 </head>
 <body>
@@ -123,7 +126,7 @@ ${body}
 <span>Rohit Purkait · India</span>
 <span><a href="${links.github}" rel="me">GitHub</a><a href="${links.x}" rel="me">X</a><a href="${links.linkedin}" rel="me">LinkedIn</a><a href="${links.youtube}" rel="me">YouTube</a><a href="mailto:${EMAIL}">Email</a></span>
 </footer>
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v=${ver('site.js')}" defer></script>
 </body>
 </html>
 `;
