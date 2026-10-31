@@ -1,2 +1,5 @@
 .vercel
 .env*
+.DS_Store
+assets/og/list.json
+.claude/

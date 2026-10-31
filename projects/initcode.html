@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>InitCode: a browser IDE for CosmWasm smart contracts</title>
+<meta name="description" content="InitCode is a browser IDE for CosmWasm development on Initia that removes the local toolchain.">
+<link rel="canonical" href="https://www.codeswithroh.online/projects/initcode">
+<meta name="author" content="Rohit Purkait">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#F7F2E8">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Rohit Purkait">
+<meta property="og:title" content="InitCode: a browser IDE for CosmWasm smart contracts">
+<meta property="og:description" content="InitCode is a browser IDE for CosmWasm development on Initia that removes the local toolchain.">
+<meta property="og:url" content="https://www.codeswithroh.online/projects/initcode">
+<meta property="og:image" content="https://www.codeswithroh.online/assets/og/initcode.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codeswithroh">
+<meta name="twitter:creator" content="@codeswithroh">
+<meta name="twitter:title" content="InitCode: a browser IDE for CosmWasm smart contracts">
+<meta name="twitter:description" content="InitCode is a browser IDE for CosmWasm development on Initia that removes the local toolchain.">
+<meta name="twitter:image" content="https://www.codeswithroh.online/assets/og/initcode.jpg">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="me" href="https://github.com/codeswithroh">
+<link rel="me" href="https://x.com/codeswithroh">
+<link rel="preload" href="/assets/fonts/fraunces-italic-300-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"InitCode","url":"https://initcode-eta.vercel.app","applicationCategory":"Agent tools","operatingSystem":"Web","description":"InitCode is a browser IDE for CosmWasm development on Initia that removes the local toolchain. It pairs a Monaco editor with AI ghost-text completions and one-click testnet deploys.","author":{"@id":"https://www.codeswithroh.online/#person"},"sameAs":"https://github.com/CodeswithrohStudio/initcode","screenshot":"https://www.codeswithroh.online/assets/shots/initcode.webp"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.codeswithroh.online/"},{"@type":"ListItem","position":2,"name":"Projects","item":"https://www.codeswithroh.online/projects"},{"@type":"ListItem","position":3,"name":"InitCode","item":"https://www.codeswithroh.online/projects/initcode"}]}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main">
+<a class="brand" href="/" aria-label="Rohit Purkait, home"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h5l2.5 3h7.5A2.5 2.5 0 0 1 22 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 17.5z"/></svg><span class="hide">rohit</span></a>
+<a class="l" href="/projects" aria-current="page">Work</a><a class="l" href="/about">About</a><a class="l" href="/proof-of-work">Videos</a>
+<a class="cta" href="/#contact">Contact</a>
+</nav>
+<main id="main">
+<header class="wrap page-h">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/projects">Projects</a> / InitCode</nav>
+<h1>InitCode</h1><p class="lead">Write and deploy CosmWasm contracts from a browser tab.</p>
+<div class="btns" style="margin-top:22px"><a class="btn" href="https://initcode-eta.vercel.app">Open live app <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10v10M7 17L17 7"/></svg></a><a class="btn alt" href="https://github.com/CodeswithrohStudio/initcode"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12c0 5.303 3.438 9.8 8.205 11.385c.6.113.82-.258.82-.577c0-.285-.01-1.04-.015-2.04c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729c1.205.084 1.838 1.236 1.838 1.236c1.07 1.835 2.809 1.305 3.495.998c.108-.776.417-1.305.76-1.605c-2.665-.3-5.466-1.332-5.466-5.93c0-1.31.465-2.38 1.235-3.22c-.135-.303-.54-1.523.105-3.176c0 0 1.005-.322 3.3 1.23c.96-.267 1.98-.399 3-.405c1.02.006 2.04.138 3 .405c2.28-1.552 3.285-1.23 3.285-1.23c.645 1.653.24 2.873.12 3.176c.765.84 1.23 1.91 1.23 3.22c0 4.61-2.805 5.625-5.475 5.92c.42.36.81 1.096.81 2.22c0 1.606-.015 2.896-.015 3.286c0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg> Source</a></div>
+</header>
+<section class="wrap"><div class="shot t-mint"><img src="/assets/shots/initcode.webp" width="960" height="600" alt="Screenshot of InitCode: Write and deploy CosmWasm contracts from a browser tab." fetchpriority="high"></div></section>
+<section class="wrap detail">
+<div><h2>What it does</h2><p>InitCode is a browser IDE for CosmWasm development on Initia that removes the local toolchain. It pairs a Monaco editor with AI ghost-text completions and one-click testnet deploys.</p><h2 style="margin-top:32px">Worth knowing</h2><ul class="pts"><li>Monaco editor with Gemma 4 inline completions</li><li>CosmWasm chat assistant inside the IDE</li><li>One-click deploy to Initia testnet</li></ul></div>
+<aside class="side"><dl><dt>Year</dt><dd>2026</dd><dt>Category</dt><dd><a href="/projects#tools">Agent tools</a></dd><dt>Status</dt><dd>No local toolchain</dd><dt>Stack</dt><dd class="stack"><span>Next.js</span><span>Monaco</span><span>Gemma 4</span><span>CosmWasm</span><span>Initia</span></dd><dt>Built by</dt><dd><a href="/about">Rohit Purkait</a></dd></dl></aside>
+</section>
+<section class="wrap" style="padding-bottom:30px"><div class="sec-head"><h2 style="font-size:32px">More agent tools</h2></div><div class="grid"><a class="pcard t-mint" data-c="tools" href="/projects/tastemaker">
+<div class="th"><img src="/assets/shots/tastemaker.webp" width="960" height="600" alt="Screenshot of Tastemaker: A skill that stops coding agents shipping the same indigo gradient." loading="lazy" decoding="async"></div>
+<div class="b"><h3>Tastemaker</h3><p>A skill that stops coding agents shipping the same indigo gradient.</p><span class="mono">509 stars · 53 forks</span></div></a><a class="pcard t-mint" data-c="tools" href="/projects/pitch-video">
+<div class="th"><img src="/assets/shots/pitch-video.webp" width="960" height="600" alt="Screenshot of Pitch Video: Record yourself reading the pitch. Your agent does the edit." loading="lazy" decoding="async"></div>
+<div class="b"><h3>Pitch Video</h3><p>Record yourself reading the pitch. Your agent does the edit.</p><span class="mono">Runs fully local</span></div></a><a class="pcard t-mint" data-c="tools" href="/projects/tasktape">
+<div class="th"><img src="/assets/shots/tasktape.webp" width="960" height="600" alt="Screenshot of TaskTape Replay: Show your work once. Replay it safely." loading="lazy" decoding="async"></div>
+<div class="b"><h3>TaskTape Replay</h3><p>Show your work once. Replay it safely.</p><span class="mono">macOS desktop app</span></div></a></div></section>
+<section class="wrap sec" id="contact"><div class="contact" data-r>
+<h2>Building something with AI or crypto?</h2>
+<p>I’m open to DevRel roles, video work and hard technical builds. I reply fast.</p>
+<div class="btns" style="justify-content:center"><a class="btn" href="mailto:rohitpurkait001@gmail.com"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m22 7l-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect width="20" height="16" x="2" y="4" rx="2"/></g></svg> rohitpurkait001@gmail.com</a><a class="btn alt" href="https://x.com/codeswithroh">DM on X</a></div>
+</div></section>
+</main>
+<footer class="wrap foot">
+<span>Rohit Purkait · India</span>
+<span><a href="https://github.com/codeswithroh" rel="me">GitHub</a><a href="https://x.com/codeswithroh" rel="me">X</a><a href="https://linkedin.com/in/rohitpurkait" rel="me">LinkedIn</a><a href="https://youtube.com/@rohitpurkait4046" rel="me">YouTube</a><a href="mailto:rohitpurkait001@gmail.com">Email</a></span>
+</footer>
+<script src="/assets/site.js" defer></script>
+</body>
+</html>

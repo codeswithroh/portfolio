@@ -1,1289 +1,148 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rohit Purkait — Developer Advocate · AI Engineer · Founding Engineer</title>
-    <meta name="description" content="Developer Advocate, AI Engineer, and Founding Engineer. Building at the intersection of AI, Web3, and developer experience.">
-    <meta property="og:title" content="Rohit Purkait">
-    <meta property="og:description" content="Developer Advocate · AI Engineer · Founding Engineer.">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-
-    <style>
-        @view-transition { navigation: auto; }
-
-        :root {
-            --bg: #050505;
-            --fg: #f0f0f0;
-            --muted: #666;
-            --dim: #333;
-            --accent: #a1ff62;
-            --accent-dim: rgba(161, 255, 98, 0.08);
-            --border: rgba(255,255,255,0.08);
-            --font: 'Space Mono', monospace;
-        }
-
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background: var(--bg);
-            color: var(--fg);
-            font-family: var(--font);
-            font-size: 13px;
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        /* WebGL canvas */
-        #canvas-container {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.35;
-        }
-
-        /* Layout */
-        main {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 32px;
-        }
-
-        section {
-            padding: 100px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        section:last-child { border-bottom: none; }
-
-        /* Typography */
-        .section-label {
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 48px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--border);
-        }
-
-        h1 {
-            font-size: clamp(3.5rem, 10vw, 7rem);
-            line-height: 0.88;
-            letter-spacing: -3px;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 28px;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* ─── HERO ─── */
-        #hero { padding: 130px 0 100px; border-bottom: 1px solid var(--border); }
-
-        .hero-eyebrow {
-            font-size: 11px;
-            letter-spacing: 0.18em;
-            color: var(--muted);
-            text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-        .hero-eyebrow span {
-            color: var(--accent);
-        }
-
-        .hero-tagline {
-            font-size: 13px;
-            color: #999;
-            max-width: 520px;
-            margin-bottom: 40px;
-            line-height: 1.8;
-        }
-
-        .hero-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 0;
-        }
-        .hero-links a {
-            font-size: 11px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            border: 1px solid var(--dim);
-            padding: 6px 14px;
-            transition: all 0.2s;
-            color: #aaa;
-        }
-        .hero-links a:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-dim);
-        }
-
-        /* ─── PROOF OF WORK CTA ─── */
-        .pow-cta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            margin-top: 32px;
-            padding: 20px 24px;
-            border: 1px solid var(--dim);
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.3s, transform 0.3s;
-        }
-        .pow-cta::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 2px;
-            background: var(--accent);
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.35s ease;
-        }
-        .pow-cta:hover {
-            border-color: rgba(161,255,98,0.35);
-            transform: translateY(-2px);
-        }
-        .pow-cta:hover::before { transform: scaleX(1); }
-
-        .pow-cta-text { display: flex; flex-direction: column; gap: 6px; }
-        .pow-cta-label {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: -0.2px;
-            color: var(--fg);
-        }
-        .pow-cta-sub {
-            font-size: 11px;
-            color: var(--muted);
-            letter-spacing: 0.03em;
-        }
-        .pow-cta-arrow {
-            font-size: 18px;
-            color: var(--accent);
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
-        }
-        .pow-cta:hover .pow-cta-arrow { transform: translateX(6px); }
-
-        @media (max-width: 480px) {
-            .pow-cta { flex-direction: column; align-items: flex-start; gap: 10px; }
-        }
-
-        .cursor {
-            display: inline-block;
-            width: 3px;
-            height: 0.85em;
-            background: var(--accent);
-            margin-left: 4px;
-            vertical-align: middle;
-            animation: blink 1.1s step-end infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* ─── FEATURED / CURRENTLY BUILDING ─── */
-        .featured-card {
-            border: 1px solid var(--border);
-            padding: 36px;
-            position: relative;
-            overflow: hidden;
-            transition: border-color 0.3s;
-        }
-        .featured-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 2px;
-            background: var(--accent);
-        }
-        .featured-card:hover {
-            border-color: rgba(161,255,98,0.3);
-        }
-
-        .featured-badge {
-            display: inline-block;
-            font-size: 10px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            background: var(--accent);
-            color: #000;
-            padding: 3px 10px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .featured-title {
-            font-size: 1.8rem;
-            letter-spacing: -1px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        .featured-title a:hover { color: var(--accent); }
-
-        .featured-desc {
-            color: #999;
-            max-width: 600px;
-            margin-bottom: 28px;
-            font-size: 13px;
-        }
-
-        .metrics {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            margin-bottom: 28px;
-        }
-        .metric {
-            display: flex;
-            flex-direction: column;
-        }
-        .metric-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--accent);
-            letter-spacing: -1px;
-        }
-        .metric-label {
-            font-size: 10px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        .tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
-        .tag {
-            font-size: 10px;
-            letter-spacing: 0.08em;
-            border: 1px solid var(--dim);
-            padding: 3px 10px;
-            color: #888;
-            text-transform: uppercase;
-        }
-        .tag.win {
-            border-color: #f5a623;
-            color: #f5a623;
-        }
-
-        /* ─── PROJECTS GRID ─── */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1px;
-            background: var(--border);
-            border: 1px solid var(--border);
-        }
-
-        .project-card {
-            background: var(--bg);
-            padding: 28px;
-            transition: background 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-        .project-card:hover {
-            background: #0a0a0a;
-        }
-
-        .project-win-badge {
-            position: absolute;
-            top: 16px; right: 16px;
-            font-size: 9px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #f5a623;
-            border: 1px solid rgba(245,166,35,0.4);
-            padding: 2px 8px;
-        }
-
-        .project-name {
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 6px;
-        }
-        .project-name a:hover { color: var(--accent); }
-
-        .project-url {
-            font-size: 10px;
-            color: var(--muted);
-            letter-spacing: 0.05em;
-            margin-bottom: 14px;
-            display: block;
-        }
-
-        .project-desc {
-            font-size: 12px;
-            color: #888;
-            line-height: 1.65;
-            margin-bottom: 18px;
-        }
-
-        /* Terminal window in project cards */
-        .terminal {
-            background: #0c0c0c;
-            border: 1px solid var(--dim);
-            padding: 14px 16px;
-            margin-bottom: 18px;
-            font-size: 11px;
-            line-height: 1.6;
-            color: #666;
-            position: relative;
-        }
-        .terminal::before {
-            content: '● ● ●';
-            display: block;
-            font-size: 8px;
-            color: #333;
-            margin-bottom: 10px;
-            letter-spacing: 4px;
-        }
-        .terminal .t-key { color: #555; }
-        .terminal .t-val { color: #aaa; }
-        .terminal .t-green { color: var(--accent); }
-        .terminal .t-yellow { color: #f5a623; }
-        .terminal .t-blue { color: #7eb3ff; }
-        .terminal .t-prompt { color: var(--muted); }
-
-        /* ─── EXPERIENCE ─── */
-        .experience-list { display: flex; flex-direction: column; gap: 40px; }
-
-        .exp-item {}
-        .exp-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 6px;
-        }
-        .exp-company {
-            font-weight: 700;
-            font-size: 14px;
-        }
-        .exp-date {
-            font-size: 11px;
-            color: var(--muted);
-            letter-spacing: 0.05em;
-        }
-        .exp-role {
-            font-size: 12px;
-            color: var(--accent);
-            margin-bottom: 12px;
-            letter-spacing: 0.05em;
-        }
-        .exp-bullets {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .exp-bullets li {
-            font-size: 12px;
-            color: #888;
-            padding-left: 18px;
-            position: relative;
-            line-height: 1.65;
-        }
-        .exp-bullets li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--dim);
-        }
-
-        /* ─── AWARDS ─── */
-        .awards-list { display: flex; flex-direction: column; gap: 24px; }
-        .award-item {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 12px;
-            align-items: start;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-        .award-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .award-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-        .award-sub { font-size: 12px; color: #888; }
-        .award-year {
-            font-size: 11px;
-            color: var(--muted);
-            letter-spacing: 0.08em;
-            white-space: nowrap;
-        }
-
-        /* ─── SKILLS ─── */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 32px;
-        }
-        .skill-group-title {
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 14px;
-        }
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-        .skill-tag {
-            font-size: 11px;
-            border: 1px solid var(--dim);
-            padding: 4px 10px;
-            color: #999;
-            transition: all 0.2s;
-        }
-        .skill-tag:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        /* ─── EDUCATION ─── */
-        .edu-list { display: flex; flex-direction: column; gap: 24px; }
-        .edu-item {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 12px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-        }
-        .edu-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .edu-school { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
-        .edu-degree { font-size: 12px; color: #888; }
-        .edu-meta {
-            text-align: right;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        .edu-gpa {
-            font-size: 11px;
-            color: var(--accent);
-            letter-spacing: 0.05em;
-            font-weight: 700;
-        }
-        .edu-year {
-            font-size: 11px;
-            color: var(--muted);
-            letter-spacing: 0.05em;
-        }
-
-        /* ─── CONTACT ─── */
-        #contact { border-bottom: none; }
-        .contact-inner { max-width: 640px; }
-        .contact-heading {
-            font-size: clamp(1.8rem, 5vw, 3rem);
-            letter-spacing: -2px;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 24px;
-        }
-        .contact-sub {
-            color: #888;
-            margin-bottom: 32px;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-        .contact-links { display: flex; flex-wrap: wrap; gap: 8px; }
-        .contact-link {
-            font-size: 11px;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            border: 1px solid var(--dim);
-            padding: 8px 18px;
-            transition: all 0.2s;
-            color: #aaa;
-        }
-        .contact-link:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            background: var(--accent-dim);
-        }
-
-        /* ─── FOOTER ─── */
-        footer {
-            position: relative;
-            z-index: 1;
-            padding: 32px;
-            text-align: center;
-            font-size: 11px;
-            color: var(--muted);
-            letter-spacing: 0.08em;
-            border-top: 1px solid var(--border);
-        }
-
-        /* ─── SCROLL INDICATOR ─── */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 40px; right: 40px;
-            font-size: 10px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--muted);
-            writing-mode: vertical-rl;
-            z-index: 10;
-        }
-
-        /* ─── RESPONSIVE ─── */
-        @media (max-width: 720px) {
-            main { padding: 0 20px; }
-            h1 { font-size: 3.2rem; letter-spacing: -2px; }
-            .projects-grid { grid-template-columns: 1fr; }
-            .skills-grid { grid-template-columns: 1fr; }
-            .scroll-indicator { display: none; }
-            .featured-card { padding: 24px; }
-            section { padding: 72px 0; }
-        }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 2.6rem; }
-            .metrics { gap: 16px; }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rohit Purkait | AI Engineer and Developer Advocate</title>
+<meta name="description" content="Rohit Purkait (codeswithroh) builds AI agents, on-device AI apps and onchain products. Creator of Tastemaker, a Claude Code skill with 509 GitHub stars.">
+<link rel="canonical" href="https://www.codeswithroh.online/">
+<meta name="author" content="Rohit Purkait">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#F7F2E8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rohit Purkait">
+<meta property="og:title" content="Rohit Purkait | AI Engineer and Developer Advocate">
+<meta property="og:description" content="Rohit Purkait (codeswithroh) builds AI agents, on-device AI apps and onchain products. Creator of Tastemaker, a Claude Code skill with 509 GitHub stars.">
+<meta property="og:url" content="https://www.codeswithroh.online/">
+<meta property="og:image" content="https://www.codeswithroh.online/assets/og/home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@codeswithroh">
+<meta name="twitter:creator" content="@codeswithroh">
+<meta name="twitter:title" content="Rohit Purkait | AI Engineer and Developer Advocate">
+<meta name="twitter:description" content="Rohit Purkait (codeswithroh) builds AI agents, on-device AI apps and onchain products. Creator of Tastemaker, a Claude Code skill with 509 GitHub stars.">
+<meta name="twitter:image" content="https://www.codeswithroh.online/assets/og/home.jpg">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="me" href="https://github.com/codeswithroh">
+<link rel="me" href="https://x.com/codeswithroh">
+<link rel="preload" href="/assets/fonts/fraunces-italic-300-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://www.codeswithroh.online/#person","name":"Rohit Purkait","alternateName":"codeswithroh","url":"https://www.codeswithroh.online/","image":"https://www.codeswithroh.online/assets/rohit-purkait.jpg","email":"mailto:rohitpurkait001@gmail.com","jobTitle":"Developer Relations Engineer","description":"AI engineer and developer advocate. Creator of Tastemaker, a Claude Code skill with 509 GitHub stars.","worksFor":{"@type":"Organization","name":"BlokCapital"},"alumniOf":[{"@type":"CollegeOrUniversity","name":"Indian Institute of Technology Madras"},{"@type":"CollegeOrUniversity","name":"Techno Main Salt Lake"}],"knowsAbout":["AI agents","Model Context Protocol","Claude Code skills","On-device AI","Developer relations","Solidity","DeFi","TypeScript"],"award":["EthGlobal 2025: Winner","PL_Genesis, Protocol Labs: Winner with Yoldr","SEBI National Hackathon: Jury Recommendation Award"],"sameAs":["https://github.com/codeswithroh","https://x.com/codeswithroh","https://linkedin.com/in/rohitpurkait","https://youtube.com/@rohitpurkait4046","https://github.com/CodeswithrohStudio"]},{"@type":"WebSite","@id":"https://www.codeswithroh.online/#site","url":"https://www.codeswithroh.online/","name":"Rohit Purkait","alternateName":"codeswithroh","publisher":{"@id":"https://www.codeswithroh.online/#person"}}]}</script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
+<nav class="nav" aria-label="Main">
+<a class="brand" href="/" aria-label="Rohit Purkait, home"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h5l2.5 3h7.5A2.5 2.5 0 0 1 22 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 17.5z"/></svg><span class="hide">rohit</span></a>
+<a class="l" href="/projects">Work</a><a class="l" href="/about">About</a><a class="l" href="/proof-of-work">Videos</a>
+<a class="cta" href="/#contact">Contact</a>
+</nav>
+<main id="main">
 
-<div id="canvas-container"></div>
+<header class="wrap hero">
+<h1>Rohit Purkait<span>AI engineer &amp; developer advocate</span></h1>
+<p class="sub">I build agent tools, on-device AI and onchain apps, 65 public repos so far in 2026, and then show other developers how they work.</p>
+<div class="pocket">
+<a class="card" style="left:0;--rot:-7deg" href="/projects/tastemaker"><img src="/assets/shots/tastemaker.webp" width="960" height="600" alt="Tastemaker landing page"></a>
+<a class="card" style="left:21%;--rot:-2deg;bottom:84px;--pos:0 0" href="/projects/nightfall"><img src="/assets/shots/nightfall.webp" width="960" height="600" alt="Nightfall battle royale game"></a>
+<div class="card note" style="left:44%;--rot:3deg;bottom:80px">Currently building agents that get paid, and models that stay on your phone.</div>
+<a class="card" style="left:67%;--rot:7deg;--pos:50% 40%" href="/about"><img src="/assets/rohit-purkait.jpg" width="460" height="460" alt="Rohit Purkait looking up at the sky"></a>
+<div class="flap" aria-hidden="true">namaste</div>
+</div>
+<nav class="dock" aria-label="Find me elsewhere">
+<a href="https://github.com/codeswithroh" rel="me" style="background:#201C17" aria-label="GitHub"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12c0 5.303 3.438 9.8 8.205 11.385c.6.113.82-.258.82-.577c0-.285-.01-1.04-.015-2.04c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729c1.205.084 1.838 1.236 1.838 1.236c1.07 1.835 2.809 1.305 3.495.998c.108-.776.417-1.305.76-1.605c-2.665-.3-5.466-1.332-5.466-5.93c0-1.31.465-2.38 1.235-3.22c-.135-.303-.54-1.523.105-3.176c0 0 1.005-.322 3.3 1.23c.96-.267 1.98-.399 3-.405c1.02.006 2.04.138 3 .405c2.28-1.552 3.285-1.23 3.285-1.23c.645 1.653.24 2.873.12 3.176c.765.84 1.23 1.91 1.23 3.22c0 4.61-2.805 5.625-5.475 5.92c.42.36.81 1.096.81 2.22c0 1.606-.015 2.896-.015 3.286c0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+<a href="https://x.com/codeswithroh" rel="me" style="background:#fff;border:1px solid var(--line)" class="dark" aria-label="X"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M14.234 10.162L22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299l-.929-1.329L3.076 1.56h3.182l5.965 8.532l.929 1.329l7.754 11.09h-3.182z"/></svg></a>
+<a href="https://linkedin.com/in/rohitpurkait" rel="me" style="background:#0A66C2" aria-label="LinkedIn"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037c-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85c3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.06 2.06 0 0 1-2.063-2.065a2.064 2.064 0 1 1 2.063 2.065m1.782 13.019H3.555V9h3.564zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></svg></a>
+<a href="https://youtube.com/@rohitpurkait4046" rel="me" style="background:#D62B20" aria-label="YouTube"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M23.498 6.186a3.02 3.02 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.02 3.02 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.02 3.02 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.02 3.02 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814M9.545 15.568V8.432L15.818 12z"/></svg></a>
+<i></i>
+<a href="mailto:rohitpurkait001@gmail.com" style="background:var(--butter)" class="dark" aria-label="Email"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m22 7l-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect width="20" height="16" x="2" y="4" rx="2"/></g></svg></a>
+</nav>
+</header>
 
-<main>
+<section class="wrap sec" aria-label="Numbers">
+<div class="stats" data-r>
+<div><strong>509</strong><span>GitHub stars on Tastemaker</span></div>
+<div><strong>65</strong><span>public repos in 2026</span></div>
+<div><strong>18</strong><span>chains shipped on</span></div>
+<div><strong>3</strong><span>hackathon awards</span></div>
+</div>
+</section>
 
-    <!-- ─── HERO ─── -->
-    <section id="hero">
-        <p class="hero-eyebrow">/// <span>PORTFOLIO_2026</span></p>
-        <h1>Rohit<br>Purkait</h1>
-        <p class="hero-tagline">
-            Developer Advocate · AI Engineer · Founding Engineer.<br>
-            Building at the intersection of AI agents, developer experience, and Web3.
-        </p>
-        <div class="hero-links">
-            <a href="mailto:rohitpurkait001@gmail.com">Email</a>
-            <a href="https://github.com/codeswithroh" target="_blank">GitHub</a>
-            <a href="https://linkedin.com/in/rohitpurkait" target="_blank">LinkedIn</a>
-            <a href="https://x.com/codeswithroh" target="_blank">X / Twitter</a>
-            <a href="https://cofoundrs.fun" target="_blank">cofoundr ↗</a>
-        </div>
+<section class="wrap" aria-label="About">
+<div class="bento" data-r>
+<a class="tile t-folder" href="/about"><div class="fold"><h3>About me</h3><span aria-hidden="true"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></span></div></a>
+<a class="tile t-tomato" href="/projects/chithi"><p>My mom reads Bengali, not English. So I built Chithi: point a phone at a bill and hear it in your language.</p><span class="u">22 Indian languages <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h10v10M7 17L17 7"/></svg></span></a>
+<div class="tile t-photo"><img src="/assets/rohit-purkait.jpg" width="460" height="460" alt="Rohit Purkait outdoors under a cloudy sky" loading="lazy"></div>
+<div class="tile t-status"><ul><li><span><i class="dot"></i>Open to</span><span>DevRel, video</span></li><li><span>Local</span><span id="clock">IST</span></li><li><span>Online as</span><span>codeswithroh</span></li></ul><h3>I reply fast</h3></div>
+<div class="tile t-role"><span class="mono">Current role</span><h3>DevRel Engineer at BlokCapital</h3></div>
+<div class="tile t-skills"><h3 style="max-width:7em">What I work in</h3><div class="pills" aria-label="Skills"><span style="left:0%;top:8%;transform:rotate(-6deg)">Claude Code</span><span style="left:46%;top:0%;transform:rotate(8deg)">MCP</span><span style="left:8%;top:34%;transform:rotate(5deg)">Solidity</span><span style="left:60%;top:30%;transform:rotate(-8deg)">Gemma</span><span style="left:22%;top:62%;transform:rotate(-4deg)">TypeScript</span><span style="left:72%;top:60%;transform:rotate(7deg)">Rust</span></div></div>
+<a class="tile t-video" href="/proof-of-work"><h3>Six videos, all solo</h3><span class="mono" style="color:var(--ink)">Script, film, edit, post <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></span></a>
+</div>
+</section>
 
-        <a class="pow-cta" href="proof-of-work.html">
-            <div class="pow-cta-text">
-                <span class="pow-cta-label">See my Proof of Work — DevRel &amp; Video Content</span>
-                <span class="pow-cta-sub">6 videos · technical builds · sponsor integrations · own-product launch</span>
-            </div>
-            <span class="pow-cta-arrow">→</span>
-        </a>
-    </section>
+<section class="wrap sec" id="work">
+<div class="sec-head"><h2>Selected <em>work</em></h2><a class="more" href="/projects">All 38 projects <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a></div>
+<article class="case t-mint" data-r>
+<div class="meta"><span class="mono">2026 · Agent tools</span><h3><a href="/projects/tastemaker" style="text-decoration:none">Tastemaker</a></h3><p class="tag">A skill that stops coding agents shipping the same indigo gradient.</p>
+<p class="stat">509 stars · 53 forks</p><a class="more" style="margin-top:14px" href="/projects/tastemaker">View project <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a></div>
+<a class="pic" href="/projects/tastemaker" tabindex="-1" aria-hidden="true"><img src="/assets/shots/tastemaker.webp" width="960" height="600" alt="" loading="lazy" decoding="async"></a>
+</article>
+<article class="case t-mint" data-r>
+<div class="meta"><span class="mono">2026 · Agent tools</span><h3><a href="/projects/pitch-video" style="text-decoration:none">Pitch Video</a></h3><p class="tag">Record yourself reading the pitch. Your agent does the edit.</p>
+<p class="stat">Runs fully local</p><a class="more" style="margin-top:14px" href="/projects/pitch-video">View project <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a></div>
+<a class="pic" href="/projects/pitch-video" tabindex="-1" aria-hidden="true"><img src="/assets/shots/pitch-video.webp" width="960" height="600" alt="" loading="lazy" decoding="async"></a>
+</article>
+<article class="case t-pink" data-r>
+<div class="meta"><span class="mono">2026 · Agent payments</span><h3><a href="/projects/mergepay" style="text-decoration:none">MergePay</a></h3><p class="tag">Every merged pull request gets paid, with no middleman.</p>
+<p class="stat">Live on Arc mainnet</p><a class="more" style="margin-top:14px" href="/projects/mergepay">View project <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a></div>
+<a class="pic" href="/projects/mergepay" tabindex="-1" aria-hidden="true"><img src="/assets/shots/mergepay.webp" width="960" height="600" alt="" loading="lazy" decoding="async"></a>
+</article>
+<article class="case t-sky" data-r>
+<div class="meta"><span class="mono">2026 · AI products</span><h3><a href="/projects/cofoundr" style="text-decoration:none">cofoundr</a></h3><p class="tag">Find a co-founder in 60 seconds.</p>
+<p class="stat">500+ organic users</p><a class="more" style="margin-top:14px" href="/projects/cofoundr">View project <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a></div>
+<a class="pic" href="/projects/cofoundr" tabindex="-1" aria-hidden="true"><img src="/assets/shots/cofoundr.webp" width="960" height="600" alt="" loading="lazy" decoding="async"></a>
+</article>
+<article class="case t-pink" data-r>
+<div class="meta"><span class="mono">2026 · Agent payments</span><h3><a href="/projects/handshake" style="text-decoration:none">Handshake</a></h3><p class="tag">Agents hire agents. USDC moves only when the work checks out.</p>
+<p class="stat">Real jobs settled on Arc</p><a class="more" style="margin-top:14px" href="/projects/handshake">View project <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a></div>
+<a class="pic" href="/projects/handshake" tabindex="-1" aria-hidden="true"><img src="/assets/shots/handshake.webp" width="960" height="600" alt="" loading="lazy" decoding="async"></a>
+</article>
+<article class="case t-sky" data-r>
+<div class="meta"><span class="mono">2026 · AI products</span><h3><a href="/projects/overturn" style="text-decoration:none">Overturn</a></h3><p class="tag">Your insurer said no. Write back.</p>
+<p class="stat">Cited appeal in a minute</p><a class="more" style="margin-top:14px" href="/projects/overturn">View project <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a></div>
+<a class="pic" href="/projects/overturn" tabindex="-1" aria-hidden="true"><img src="/assets/shots/overturn.webp" width="960" height="600" alt="" loading="lazy" decoding="async"></a>
+</article>
+<article class="case t-butter" data-r>
+<div class="meta"><span class="mono">2026 · On-device AI</span><h3><a href="/projects/chithi" style="text-decoration:none">Chithi</a></h3><p class="tag">A pocket reader for people who read Bengali but not English.</p>
+<p class="stat">22 Indian languages</p><a class="more" style="margin-top:14px" href="/projects/chithi">View project <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></a></div>
+<a class="pic" href="/projects/chithi" tabindex="-1" aria-hidden="true"><img src="/assets/shots/chithi.webp" width="960" height="600" alt="" loading="lazy" decoding="async"></a>
+</article>
+</section>
 
-    <!-- ─── CURRENTLY BUILDING ─── -->
-    <section id="featured">
-        <p class="section-label">Currently Building</p>
-        <div class="featured-card">
-            <span class="featured-badge">Live · YC S26 Applicant</span>
-            <h2 class="featured-title"><a href="https://cofoundrs.fun" target="_blank">cofoundr</a></h2>
-            <p class="featured-desc">
-                AI co-founder matching agent — built solo in 48 hours at a YC × Crustdata hackathon.
-                4-stage LLM pipeline: profile enrichment, 700M-profile search, AI scoring, and personalised intro generation.
-                MCP server for agent-to-agent matching shipping Q3 2026.
-            </p>
-            <div class="metrics">
-                <div class="metric">
-                    <span class="metric-value">500+</span>
-                    <span class="metric-label">Organic Users</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-value">$30</span>
-                    <span class="metric-label">MRR · Zero Paid Acq.</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-value">48h</span>
-                    <span class="metric-label">Time to Ship</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-value">YC</span>
-                    <span class="metric-label">S26 Applicant</span>
-                </div>
-            </div>
-            <div class="terminal">
-                <span class="t-prompt">$ </span><span class="t-green">pipeline</span><br>
-                <span class="t-key">  stage_1 </span><span class="t-val">→ linkedin_oauth + profile_enrich</span><br>
-                <span class="t-key">  stage_2 </span><span class="t-val">→ crustdata_search(700M profiles)</span><br>
-                <span class="t-key">  stage_3 </span><span class="t-val">→ claude_scoring(match%, strengths, gaps)</span><br>
-                <span class="t-key">  stage_4 </span><span class="t-val">→ personalised_intro + icebreakers</span><br>
-                <span class="t-prompt">$ </span><span class="t-green">status</span><span class="t-val"> LIVE · 500+ users · $30 MRR</span>
-            </div>
-            <div class="tag-row">
-                <span class="tag">Next.js</span>
-                <span class="tag">Claude API</span>
-                <span class="tag">Crustdata</span>
-                <span class="tag">MongoDB</span>
-                <span class="tag">Razorpay</span>
-                <span class="tag">MCP</span>
-            </div>
-        </div>
-    </section>
+<section class="wrap sec" aria-labelledby="cats">
+<div class="sec-head"><h2 id="cats">Six things I keep <em>building</em></h2></div>
+<div class="cats"><a class="cat t-mint" href="/projects#tools" data-r><h3>Agent tools</h3><p>Skills and tools that make coding agents better at the job.</p><span class="n">7 projects <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></span></a><a class="cat t-butter" href="/projects#local" data-r><h3>On-device AI</h3><p>Open-weight models running on the phone or laptop, with code checking their work.</p><span class="n">5 projects <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></span></a><a class="cat t-sky" href="/projects#ai" data-r><h3>AI products</h3><p>Hosted AI apps built around one specific problem.</p><span class="n">5 projects <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></span></a><a class="cat t-pink" href="/projects#agents" data-r><h3>Agent payments</h3><p>Rails that let AI agents hold money, get hired and get paid.</p><span class="n">6 projects <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></span></a><a class="cat t-peach" href="/projects#defi" data-r><h3>DeFi and markets</h3><p>Vaults, trading and settlement across 18 chains.</p><span class="n">9 projects <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></span></a><a class="cat t-lilac" href="/projects#privacy" data-r><h3>Privacy and proofs</h3><p>Encrypted state, zero-knowledge proofs and sealed game worlds.</p><span class="n">6 projects <svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7l7 7l-7 7"/></svg></span></a></div>
+</section>
 
-    <!-- ─── PROJECTS ─── -->
-    <section id="projects">
-        <p class="section-label">Selected Work</p>
-        <div class="projects-grid">
-
-            <!-- PayMesh -->
-            <div class="project-card">
-                <h3 class="project-name">PayMesh</h3>
-                <span class="project-url">x402 payment infra for AI agents</span>
-                <p class="project-desc">
-                    "Stripe for AI Agents." One-line middleware monetizes any API with HTTP 402 micro-payments on Base.
-                    Agents pay, receive proof headers, and retry automatically. ENS-based merchant identity + agent-discovery marketplace.
-                </p>
-                <div class="terminal">
-                    <span class="t-prompt">$ </span><span class="t-blue">paymeshNext</span>(request, {<br>
-                    <span class="t-key">  price</span>: <span class="t-green">'0.005'</span>, <span class="t-key">payTo</span>: <span class="t-val">'0x...'</span><br>
-                    })<br>
-                    <span class="t-prompt"># </span><span class="t-yellow">402 → agent pays USDC → unlock</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">Next.js</span>
-                    <span class="tag">Solidity</span>
-                    <span class="tag">Base USDC</span>
-                    <span class="tag">ENS</span>
-                    <span class="tag">x402</span>
-                    <span class="tag">Viem</span>
-                </div>
-            </div>
-
-            <!-- Yoldr -->
-            <div class="project-card">
-                <span class="project-win-badge">🏆 PL_Genesis</span>
-                <h3 class="project-name"><a href="https://yoldr.vercel.app" target="_blank">Yoldr ↗</a></h3>
-                <span class="project-url">yoldr.vercel.app · Principal-protected DeFi on Flow</span>
-                <p class="project-desc">
-                    You Only Lose (the) yield, Really. Zero-coupon bond math locks principal on-chain;
-                    only accrued yield funds leveraged positions on BTC, ETH, and FLOW. Principal survives any losing trade.
-                    Won PL_Genesis hackathon by Protocol Labs.
-                </p>
-                <div class="terminal">
-                    <span class="t-key">vault</span>: <span class="t-green">principal LOCKED</span><br>
-                    <span class="t-key">yield </span>: <span class="t-yellow">→ shield positions (1x–5x)</span><br>
-                    <span class="t-key">loss  </span>: <span class="t-val">yield absorbs, principal safe</span><br>
-                    <span class="t-key">pets  </span>: <span class="t-blue">Griffin · Dragon · Phoenix · Narwhal</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">Cadence</span>
-                    <span class="tag">Flow</span>
-                    <span class="tag">Next.js</span>
-                    <span class="tag">FCL</span>
-                    <span class="tag">Three.js</span>
-                </div>
-            </div>
-
-            <!-- InitCode -->
-            <div class="project-card">
-                <h3 class="project-name"><a href="https://initcode-eta.vercel.app" target="_blank">InitCode ↗</a></h3>
-                <span class="project-url">initcode-eta.vercel.app · Browser IDE for CosmWasm</span>
-                <p class="project-desc">
-                    Browser-based IDE for CosmWasm smart contract development on Initia, eliminating local toolchain setup entirely.
-                    Monaco editor, AI ghost-text completions, in-IDE CosmWasm chat assistant, one-click testnet deployment.
-                </p>
-                <div class="terminal">
-                    <span class="t-prompt">$ </span><span class="t-green">initcode</span> --new contract<br>
-                    <span class="t-key">  editor </span><span class="t-val">→ Monaco (VS Code-grade)</span><br>
-                    <span class="t-key">  ai     </span><span class="t-val">→ Gemma 4 inline completions</span><br>
-                    <span class="t-key">  deploy </span><span class="t-val">→ Initia Testnet, one click</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">Next.js 16</span>
-                    <span class="tag">Monaco</span>
-                    <span class="tag">Gemma 4</span>
-                    <span class="tag">CosmWasm</span>
-                    <span class="tag">Initia</span>
-                </div>
-            </div>
-
-            <!-- CrossShield -->
-            <div class="project-card">
-                <h3 class="project-name">CrossShield</h3>
-                <span class="project-url">Polkadot Solidity Hackathon · Principal-protected RWA vaults</span>
-                <p class="project-desc">
-                    Principal-protected DeFi vaults on Polkadot Hub with cross-chain RWA exposure (Gold, BTC, Real Estate).
-                    AI-driven transaction risk interception, XCM cross-chain routing, and ink! PVM risk contract.
-                </p>
-                <div class="terminal">
-                    <span class="t-key">deposit </span><span class="t-val">$1,000 USDC</span><br>
-                    <span class="t-key">reserve </span><span class="t-green">$952.38 → locked (PV math)</span><br>
-                    <span class="t-key">yield   </span><span class="t-yellow">$47.62 → RWA shield (up to 50x)</span><br>
-                    <span class="t-key">risk    </span><span class="t-blue">claude-sonnet intercept pre-tx</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">Solidity</span>
-                    <span class="tag">ink! / Rust</span>
-                    <span class="tag">XCM</span>
-                    <span class="tag">Polkadot</span>
-                    <span class="tag">Claude API</span>
-                </div>
-            </div>
-
-            <!-- FoundrProof -->
-            <div class="project-card">
-                <h3 class="project-name"><a href="https://founderfluencer.vercel.app" target="_blank">FoundrProof ↗</a></h3>
-                <span class="project-url">founderfluencer.vercel.app · X profile → founder score</span>
-                <p class="project-desc">
-                    AI-powered X (Twitter) profile analyzer. Scores founder potential across 5 traits, assigns archetype,
-                    generates a roast, suggests 3 startup ideas, and produces a shareable founder card.
-                </p>
-                <div class="terminal">
-                    <span class="t-key">archetype  </span><span class="t-yellow">The Hacker-Visionary</span><br>
-                    <span class="t-key">score      </span><span class="t-green">8.4 / 10</span><br>
-                    <span class="t-key">rarity     </span><span class="t-blue">Legendary</span><br>
-                    <span class="t-key">co-founder </span><span class="t-val">→ operator + sales</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">Next.js 16</span>
-                    <span class="tag">GPT-4o</span>
-                    <span class="tag">twitterapi.io</span>
-                    <span class="tag">Recharts</span>
-                </div>
-            </div>
-
-            <!-- ENSPay -->
-            <div class="project-card">
-                <h3 class="project-name">ENSPay</h3>
-                <span class="project-url">Receiver-controlled crypto payments via ENS</span>
-                <p class="project-desc">
-                    Payers send funds with only an ENS name — routing, token, preferred chain, and privacy are resolved
-                    from ENS text records automatically. Stealth mode, QR terminal, Uniswap V3 swap, Across bridge.
-                </p>
-                <div class="terminal">
-                    <span class="t-prompt">$ </span><span class="t-green">pay</span> rohit.eth <span class="t-val">50 USDC</span><br>
-                    <span class="t-key">  resolve </span><span class="t-val">→ enspay.token=USDC, net=base</span><br>
-                    <span class="t-key">  route   </span><span class="t-val">→ UniV3 swap → Across bridge</span><br>
-                    <span class="t-key">  deliver </span><span class="t-green">→ USDC on Base ✓</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">Next.js</span>
-                    <span class="tag">ENS</span>
-                    <span class="tag">Uniswap V3</span>
-                    <span class="tag">Across</span>
-                    <span class="tag">wagmi</span>
-                </div>
-            </div>
-
-            <!-- Briefd -->
-            <div class="project-card">
-                <h3 class="project-name">Briefd</h3>
-                <span class="project-url">AI scoping tool for freelancers</span>
-                <p class="project-desc">
-                    Upload a client meeting recording → get a polished scope document, PRD, and wireframe outline in minutes.
-                    Whisper transcription, Gemini extraction, Claude generation. Private client review link for approval.
-                </p>
-                <div class="terminal">
-                    <span class="t-key">input  </span><span class="t-val">meeting.mp3 (up to 500MB)</span><br>
-                    <span class="t-key">step_1 </span><span class="t-yellow">Whisper → transcript</span><br>
-                    <span class="t-key">step_2 </span><span class="t-yellow">Gemini → requirements</span><br>
-                    <span class="t-key">step_3 </span><span class="t-green">Claude → scope + PRD</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">FastAPI</span>
-                    <span class="tag">React</span>
-                    <span class="tag">Claude</span>
-                    <span class="tag">Whisper</span>
-                    <span class="tag">Supabase</span>
-                </div>
-            </div>
-
-            <!-- Will.eth -->
-            <div class="project-card">
-                <h3 class="project-name"><a href="https://willeth-somnia-reactive.vercel.app" target="_blank">Will.eth ↗</a></h3>
-                <span class="project-url">Reactive inheritance protocol on Somnia</span>
-                <p class="project-desc">
-                    Dead-man's-switch inheritance protocol — beneficiaries watch payouts land in real-time the moment
-                    the will executes via Somnia Reactivity, no polling. On-chain allocation, live status transitions.
-                </p>
-                <div class="terminal">
-                    <span class="t-key">owner   </span><span class="t-val">misses check-in</span><br>
-                    <span class="t-key">WillExecuted </span><span class="t-green">→ fired on-chain</span><br>
-                    <span class="t-key">cards   </span><span class="t-yellow">WAITING → INCOMING → RECEIVED</span><br>
-                    <span class="t-key">latency </span><span class="t-blue">real-time, no refresh</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">Solidity</span>
-                    <span class="tag">Somnia</span>
-                    <span class="tag">wagmi</span>
-                    <span class="tag">Framer Motion</span>
-                </div>
-            </div>
-
-            <!-- SlashFill -->
-            <div class="project-card">
-                <h3 class="project-name">SlashFill</h3>
-                <span class="project-url">Chrome Extension · /commands in any text field</span>
-                <p class="project-desc">
-                    Type <code style="font-size:11px;color:#aaa;">/commands</code> in any browser text field to instantly insert saved snippets, links, emails,
-                    and templates. Fully offline, no backend, no LLM. Syncs across devices via chrome.storage.
-                </p>
-                <div class="terminal">
-                    <span class="t-val">user types: </span><span class="t-green">/email</span><br>
-                    <span class="t-key">  match  </span><span class="t-val">→ "rohitpurkait001@gmail.com"</span><br>
-                    <span class="t-key">  insert </span><span class="t-green">→ instant, offline, zero latency</span><br>
-                    <span class="t-key">  sync   </span><span class="t-blue">→ chrome.storage.sync</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">Chrome Extension</span>
-                    <span class="tag">Manifest V3</span>
-                    <span class="tag">Vanilla JS</span>
-                </div>
-            </div>
-
-            <!-- PredictRAM -->
-            <div class="project-card">
-                <span class="project-win-badge">🏆 SEBI Hackathon</span>
-                <h3 class="project-name">PredictRAM Platform</h3>
-                <span class="project-url">Financial research automation · SEBI registered</span>
-                <p class="project-desc">
-                    Financial research automation platform built with a SEBI-registered analyst. Led a team of 20 to
-                    deliver a web + cross-platform mobile app for investors and advisors. Won Jury Recommendation Award.
-                </p>
-                <div class="terminal">
-                    <span class="t-key">team    </span><span class="t-val">20 engineers</span><br>
-                    <span class="t-key">outputs </span><span class="t-val">web + mobile (cross-platform)</span><br>
-                    <span class="t-key">result  </span><span class="t-yellow">Jury Recommendation Award</span><br>
-                    <span class="t-key">org     </span><span class="t-blue">SEBI national hackathon</span>
-                </div>
-                <div class="tag-row">
-                    <span class="tag">React</span>
-                    <span class="tag">Python</span>
-                    <span class="tag">REST APIs</span>
-                    <span class="tag">JavaScript</span>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ─── EXPERIENCE ─── -->
-    <section id="experience">
-        <p class="section-label">Work Log</p>
-        <div class="experience-list">
-
-            <div class="exp-item">
-                <div class="exp-header">
-                    <span class="exp-company">BlokCapital</span>
-                    <span class="exp-date">Jan 2026 — Present</span>
-                </div>
-                <div class="exp-role">Developer Relations Engineer</div>
-                <ul class="exp-bullets">
-                    <li>Own developer experience end to end: onboarding docs, SDK guides, quickstart templates, and code examples that cut time-to-first-integration for external builders.</li>
-                    <li>Represent the protocol at Web3 conferences, hackathons, and ecosystem events; run technical workshops and live demos that drive developer adoption.</li>
-                    <li>Surface developer pain points to product and engineering, spec tooling improvements, and ship open-source reference implementations that unblock ecosystem projects.</li>
-                </ul>
-            </div>
-
-            <div class="exp-item">
-                <div class="exp-header">
-                    <span class="exp-company">Orbitxpay</span>
-                    <span class="exp-date">Jan 2025 — Dec 2025 · Remote</span>
-                </div>
-                <div class="exp-role">Senior Backend Developer</div>
-                <ul class="exp-bullets">
-                    <li>Joined as an early engineer and owned backend architecture for a neobanking stack: payments engine, neocard issuance layer, and partner-specific banking modules serving multiple institutions.</li>
-                    <li>Built ETL pipelines and a real-time analytics system powering ranked dashboards and card performance metrics; reduced reporting latency by ~60%.</li>
-                    <li>Designed Web3 + financial API integrations for seamless on-chain/off-chain workflows, improving transaction reconciliation accuracy across the platform.</li>
-                </ul>
-                <div class="tag-row" style="margin-top:14px;">
-                    <span class="tag">TypeScript</span>
-                    <span class="tag">NestJs</span>
-                    <span class="tag">PostgreSQL</span>
-                    <span class="tag">MongoDB</span>
-                    <span class="tag">Viem</span>
-                    <span class="tag">Solidity</span>
-                    <span class="tag">ETL</span>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="exp-header">
-                    <span class="exp-company">Metaborong</span>
-                    <span class="exp-date">May 2024 — Jan 2025</span>
-                </div>
-                <div class="exp-role">Full Stack Developer</div>
-                <ul class="exp-bullets">
-                    <li>Built React/Next.js interfaces with complex business logic, reusable component libraries, and accessible UI patterns; iterated rapidly with product and design to improve core user flows.</li>
-                </ul>
-                <div class="tag-row" style="margin-top:14px;">
-                    <span class="tag">TypeScript</span>
-                    <span class="tag">Next.js</span>
-                    <span class="tag">React</span>
-                    <span class="tag">Tailwind CSS</span>
-                </div>
-            </div>
-
-            <div class="exp-item">
-                <div class="exp-header">
-                    <span class="exp-company">PredictRAM</span>
-                    <span class="exp-date">Jul 2022 — May 2024 · Part-Time</span>
-                </div>
-                <div class="exp-role">Software Developer I</div>
-                <ul class="exp-bullets">
-                    <li>Built a financial research automation platform with a SEBI-registered analyst. Won the Jury Recommendation Award at a SEBI national hackathon.</li>
-                    <li>Led a team of 20 to deliver a web and cross-platform mobile app for investors and advisors.</li>
-                </ul>
-                <div class="tag-row" style="margin-top:14px;">
-                    <span class="tag">JavaScript</span>
-                    <span class="tag">React</span>
-                    <span class="tag">Python</span>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ─── AWARDS ─── -->
-    <section id="awards">
-        <p class="section-label">Global Recognition</p>
-        <div class="awards-list">
-
-            <div class="award-item">
-                <div>
-                    <div class="award-title">🏆 EthGlobal 2025 — Winner</div>
-                    <div class="award-sub">Global Ethereum hackathon winner across hundreds of competing international teams.</div>
-                </div>
-                <div class="award-year">2025</div>
-            </div>
-
-            <div class="award-item">
-                <div>
-                    <div class="award-title">🏆 PL_Genesis: Frontiers of Collaboration — Winner</div>
-                    <div class="award-sub">Protocol Labs hackathon. Built Yoldr — a live principal-protected DeFi vault where only accrued yield funds leveraged positions; principal is always protected.</div>
-                </div>
-                <div class="award-year">2025</div>
-            </div>
-
-            <div class="award-item">
-                <div>
-                    <div class="award-title">🏆 SEBI National Hackathon — Jury Recommendation Award</div>
-                    <div class="award-sub">Jury Recommendation Award at a national-level hackathon organised by the Securities and Exchange Board of India.</div>
-                </div>
-                <div class="award-year">2023</div>
-            </div>
-
-            <div class="award-item">
-                <div>
-                    <div class="award-title">Postman Student Leader &amp; Expert</div>
-                    <div class="award-sub">Developer Ambassador for HelaLabs and Postman · Certified MERN Stack Developer · IBM Data Visualization Using Python.</div>
-                </div>
-                <div class="award-year">2022–24</div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- ─── SKILLS ─── -->
-    <section id="stack">
-        <p class="section-label">Data &amp; Specs</p>
-        <div class="skills-grid">
-
-            <div>
-                <p class="skill-group-title">AI / LLM</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">RAG</span>
-                    <span class="skill-tag">LLM Agent Pipelines</span>
-                    <span class="skill-tag">MCP</span>
-                    <span class="skill-tag">Prompt Engineering</span>
-                    <span class="skill-tag">Vector Search</span>
-                    <span class="skill-tag">Multi-agent Systems</span>
-                    <span class="skill-tag">Agentic Workflows</span>
-                    <span class="skill-tag">LLM Orchestration</span>
-                </div>
-            </div>
-
-            <div>
-                <p class="skill-group-title">Web3 &amp; Blockchain</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">EVM</span>
-                    <span class="skill-tag">Flow / Cadence</span>
-                    <span class="skill-tag">Polkadot / XCM</span>
-                    <span class="skill-tag">Smart Contracts</span>
-                    <span class="skill-tag">DeFi</span>
-                    <span class="skill-tag">ENS</span>
-                    <span class="skill-tag">Cross-chain</span>
-                    <span class="skill-tag">Foundry</span>
-                </div>
-            </div>
-
-            <div>
-                <p class="skill-group-title">Languages</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">TypeScript</span>
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">Solidity</span>
-                    <span class="skill-tag">Cadence</span>
-                    <span class="skill-tag">Rust</span>
-                </div>
-            </div>
-
-            <div>
-                <p class="skill-group-title">Frameworks &amp; Tools</p>
-                <div class="skill-tags">
-                    <span class="skill-tag">Next.js</span>
-                    <span class="skill-tag">React</span>
-                    <span class="skill-tag">NestJs</span>
-                    <span class="skill-tag">FastAPI</span>
-                    <span class="skill-tag">Viem / Wagmi</span>
-                    <span class="skill-tag">MongoDB</span>
-                    <span class="skill-tag">PostgreSQL</span>
-                    <span class="skill-tag">Supabase</span>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Education -->
-        <div style="margin-top: 48px;">
-            <p class="section-label">Education</p>
-            <div class="edu-list">
-                <div class="edu-item">
-                    <div>
-                        <div class="edu-school">Indian Institute of Technology Madras</div>
-                        <div class="edu-degree">Bachelor of Science in Data Science</div>
-                    </div>
-                    <div class="edu-meta">
-                        <span class="edu-gpa">GPA 9.2 / 10</span>
-                        <span class="edu-year">2022 — 2025</span>
-                    </div>
-                </div>
-                <div class="edu-item">
-                    <div>
-                        <div class="edu-school">Techno Main Saltlake</div>
-                        <div class="edu-degree">Bachelor of Technology in Electrical Engineering</div>
-                    </div>
-                    <div class="edu-meta">
-                        <span class="edu-gpa">GPA 8.6 / 10</span>
-                        <span class="edu-year">2020 — 2024</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ─── CONTACT ─── -->
-    <section id="contact">
-        <div class="contact-inner">
-            <p class="section-label">Get In Touch</p>
-            <h2 class="contact-heading">Building something on<br>AI or Web3?</h2>
-            <p class="contact-sub">
-                Looking to collaborate, explore developer relations opportunities, or just want to talk about
-                agentic systems and on-chain infra — reach out. I respond fast.
-            </p>
-            <div class="contact-links">
-                <a class="contact-link" href="mailto:rohitpurkait001@gmail.com">rohitpurkait001@gmail.com</a>
-                <a class="contact-link" href="https://x.com/codeswithroh" target="_blank">@codeswithroh</a>
-                <a class="contact-link" href="https://linkedin.com/in/rohitpurkait" target="_blank">LinkedIn</a>
-                <a class="contact-link" href="https://github.com/codeswithroh" target="_blank">GitHub</a>
-            </div>
-        </div>
-    </section>
-
+<section class="wrap sec" aria-label="Experience and awards">
+<div class="two">
+<div class="panel" data-r><h3>Work log</h3><ul class="tl"><li><b>BlokCapital</b><span>Developer Relations Engineer</span><span class="mono">Jan 2026 to now</span></li><li><b>Orbitxpay</b><span>Senior Backend Developer</span><span class="mono">2025</span></li><li><b>Metaborong</b><span>Full Stack Developer</span><span class="mono">2024 to 2025</span></li><li><b>PredictRAM</b><span>Software Developer I</span><span class="mono">2022 to 2024</span></li></ul></div>
+<div class="panel" data-r><h3>Awards</h3><ul class="tl"><li><b>EthGlobal 2025</b><span>Winner</span><span class="mono">2025</span></li><li><b>PL_Genesis, Protocol Labs</b><span>Winner with Yoldr</span><span class="mono">2025</span></li><li><b>SEBI National Hackathon</b><span>Jury Recommendation Award</span><span class="mono">2023</span></li><li><b>Postman</b><span>Student Leader and Expert</span><span class="mono">2022 to 2024</span></li></ul></div>
+</div>
+</section>
+<section class="wrap sec" id="contact"><div class="contact" data-r>
+<h2>Building something with AI or crypto?</h2>
+<p>I’m open to DevRel roles, video work and hard technical builds. I reply fast.</p>
+<div class="btns" style="justify-content:center"><a class="btn" href="mailto:rohitpurkait001@gmail.com"><svg class="ic" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m22 7l-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect width="20" height="16" x="2" y="4" rx="2"/></g></svg> rohitpurkait001@gmail.com</a><a class="btn alt" href="https://x.com/codeswithroh">DM on X</a></div>
+</div></section>
 </main>
-
-<footer>ROHIT PURKAIT · 2026</footer>
-
-<div class="scroll-indicator">SCROLL TO EXPLORE</div>
-
-<!-- Dependencies -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
-
-<script>
-// ─── WebGL Sphere ───
-const container = document.getElementById('canvas-container');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 3;
-
-const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-container.appendChild(renderer.domElement);
-
-// Vertex shader with simplex noise distortion
-const vertexShader = `
-    varying vec3 vNormal;
-    varying vec3 vPosition;
-    uniform float uTime;
-    uniform float uDistort;
-
-    vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}
-    vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
-    vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}
-    vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
-
-    float snoise(vec3 v){
-        const vec2 C=vec2(1.0/6.0,1.0/3.0);
-        const vec4 D=vec4(0.0,0.5,1.0,2.0);
-        vec3 i=floor(v+dot(v,C.yyy));
-        vec3 x0=v-i+dot(i,C.xxx);
-        vec3 g=step(x0.yzx,x0.xyz);
-        vec3 l=1.0-g;
-        vec3 i1=min(g.xyz,l.zxy);
-        vec3 i2=max(g.xyz,l.zxy);
-        vec3 x1=x0-i1+C.xxx;
-        vec3 x2=x0-i2+C.yyy;
-        vec3 x3=x0-D.yyy;
-        i=mod289(i);
-        vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
-        float n_=0.142857142857;
-        vec3 ns=n_*D.wyz-D.xzx;
-        vec4 j=p-49.0*floor(p*ns.z*ns.z);
-        vec4 x_=floor(j*ns.z);
-        vec4 y_=floor(j-7.0*x_);
-        vec4 x=x_*ns.x+ns.yyyy;
-        vec4 y=y_*ns.x+ns.yyyy;
-        vec4 h=1.0-abs(x)-abs(y);
-        vec4 b0=vec4(x.xy,y.xy);
-        vec4 b1=vec4(x.zw,y.zw);
-        vec4 s0=floor(b0)*2.0+1.0;
-        vec4 s1=floor(b1)*2.0+1.0;
-        vec4 sh=-step(h,vec4(0.0));
-        vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy;
-        vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
-        vec3 p0=vec3(a0.xy,h.x);
-        vec3 p1=vec3(a0.zw,h.y);
-        vec3 p2=vec3(a1.xy,h.z);
-        vec3 p3=vec3(a1.zw,h.w);
-        vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
-        p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;
-        vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0);
-        m=m*m;
-        return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
-    }
-
-    void main(){
-        vNormal=normal;
-        float noiseVal=snoise(position*2.0+uTime*0.4);
-        vec3 newPos=position+normal*noiseVal*uDistort;
-        vPosition=newPos;
-        gl_Position=projectionMatrix*modelViewMatrix*vec4(newPos,1.0);
-    }
-`;
-
-const fragmentShader = `
-    varying vec3 vNormal;
-    varying vec3 vPosition;
-
-    float bayer(vec2 pos){
-        int x=int(mod(pos.x,4.0));
-        int y=int(mod(pos.y,4.0));
-        if(x==0){if(y==0)return 0.0/16.0;if(y==1)return 8.0/16.0;if(y==2)return 2.0/16.0;return 10.0/16.0;}
-        else if(x==1){if(y==0)return 12.0/16.0;if(y==1)return 4.0/16.0;if(y==2)return 14.0/16.0;return 6.0/16.0;}
-        else if(x==2){if(y==0)return 3.0/16.0;if(y==1)return 11.0/16.0;if(y==2)return 1.0/16.0;return 9.0/16.0;}
-        else{if(y==0)return 15.0/16.0;if(y==1)return 7.0/16.0;if(y==2)return 13.0/16.0;return 5.0/16.0;}
-    }
-
-    void main(){
-        vec3 lightDir=normalize(vec3(1.0,1.0,2.0));
-        float diff=dot(normalize(vNormal),lightDir);
-        float intensity=diff*0.5+0.5;
-        float threshold=bayer(gl_FragCoord.xy);
-        vec3 color=vec3(0.0);
-        if(intensity>threshold) color=vec3(0.94,0.94,0.94);
-        gl_FragColor=vec4(color,1.0);
-    }
-`;
-
-const geometry = new THREE.IcosahedronGeometry(1, 64);
-const uniforms = {
-    uTime: { value: 0 },
-    uDistort: { value: 0.18 },
-};
-const material = new THREE.ShaderMaterial({ vertexShader, fragmentShader, uniforms });
-const sphere = new THREE.Mesh(geometry, material);
-scene.add(sphere);
-
-// Smooth scroll
-const lenis = new Lenis();
-function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-requestAnimationFrame(raf);
-
-gsap.registerPlugin(ScrollTrigger);
-const clock = new THREE.Clock();
-
-function animate() {
-    uniforms.uTime.value = clock.getElapsedTime();
-    sphere.rotation.y += 0.0015;
-    sphere.rotation.x += 0.0008;
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-}
-animate();
-
-// Scroll-driven sphere movement
-gsap.to(sphere.position, {
-    x: 1.5,
-    scrollTrigger: {
-        trigger: '#experience',
-        start: 'top center',
-        end: 'bottom center',
-        scrub: 1.5,
-    }
-});
-
-gsap.to(sphere.position, {
-    x: -1.2,
-    scrollTrigger: {
-        trigger: '#awards',
-        start: 'top center',
-        end: 'bottom center',
-        scrub: 1.5,
-    }
-});
-
-gsap.to(sphere.position, {
-    x: 0, y: -0.5,
-    scrollTrigger: {
-        trigger: '#contact',
-        start: 'top bottom',
-        end: 'bottom bottom',
-        scrub: 1,
-    }
-});
-
-ScrollTrigger.create({
-    trigger: '#projects',
-    start: 'top bottom',
-    end: 'bottom top',
-    onUpdate: (self) => {
-        gsap.to(uniforms.uDistort, { value: 0.18 + self.progress * 0.25, duration: 0.4 });
-    }
-});
-
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-</script>
-
+<footer class="wrap foot">
+<span>Rohit Purkait · India</span>
+<span><a href="https://github.com/codeswithroh" rel="me">GitHub</a><a href="https://x.com/codeswithroh" rel="me">X</a><a href="https://linkedin.com/in/rohitpurkait" rel="me">LinkedIn</a><a href="https://youtube.com/@rohitpurkait4046" rel="me">YouTube</a><a href="mailto:rohitpurkait001@gmail.com">Email</a></span>
+</footer>
+<script src="/assets/site.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,64 @@
+# Rohit Purkait
+
+> AI engineer and developer advocate, online as codeswithroh. Developer Relations Engineer at BlokCapital. Creator of Tastemaker, a Claude Code skill with 509 GitHub stars.
+
+## Pages
+- [About](https://www.codeswithroh.online/about): background, experience, awards, education
+- [Projects](https://www.codeswithroh.online/projects): every project
+- [Videos](https://www.codeswithroh.online/proof-of-work): developer video work
+
+## Agent tools
+- [Tastemaker](https://www.codeswithroh.online/projects/tastemaker): A skill that stops coding agents shipping the same indigo gradient.
+- [Pitch Video](https://www.codeswithroh.online/projects/pitch-video): Record yourself reading the pitch. Your agent does the edit.
+- [TaskTape Replay](https://www.codeswithroh.online/projects/tasktape): Show your work once. Replay it safely.
+- [TraceGate](https://www.codeswithroh.online/projects/tracegate): If you could not debug the agent in production, it does not ship.
+- [InitCode](https://www.codeswithroh.online/projects/initcode): Write and deploy CosmWasm contracts from a browser tab.
+- [Ideagram](https://www.codeswithroh.online/projects/ideagram): One concept in, one recolored illustration out.
+- [SlashFill](https://www.codeswithroh.online/projects/slashfill): Type /email anywhere and your address appears.
+
+## On-device AI
+- [Chithi](https://www.codeswithroh.online/projects/chithi): A pocket reader for people who read Bengali but not English.
+- [Baad Mein](https://www.codeswithroh.online/projects/baad-mein): One morning card from the chat you keep with yourself.
+- [Pakka](https://www.codeswithroh.online/projects/pakka): A home baker’s WhatsApp orders, turned into tomorrow’s bake sheet.
+- [Drift](https://www.codeswithroh.online/projects/drift): A walking app that wants your phone in your pocket.
+- [Bhoot](https://www.codeswithroh.online/projects/bhoot): The people who left your repo, and the code of theirs that still runs.
+
+## AI products
+- [cofoundr](https://www.codeswithroh.online/projects/cofoundr): Find a co-founder in 60 seconds.
+- [Overturn](https://www.codeswithroh.online/projects/overturn): Your insurer said no. Write back.
+- [FoundrProof](https://www.codeswithroh.online/projects/foundrproof): Paste an X handle. Get a founder score and a roast.
+- [Briefd](https://www.codeswithroh.online/projects/briefd): Upload a client call. Get the scope doc.
+- [StreamReach](https://www.codeswithroh.online/projects/streamreach): Citizen stream checks that reach a GP inside the EHR.
+
+## Agent payments
+- [MergePay](https://www.codeswithroh.online/projects/mergepay): Every merged pull request gets paid, with no middleman.
+- [Handshake](https://www.codeswithroh.online/projects/handshake): Agents hire agents. USDC moves only when the work checks out.
+- [Longtail](https://www.codeswithroh.online/projects/longtail): Liquidity for the prediction markets nobody quotes.
+- [PayMesh](https://www.codeswithroh.online/projects/paymesh): One line of middleware monetizes any API.
+- [CAPP](https://www.codeswithroh.online/projects/capp): Scoped, revocable on-chain authority for AI agents.
+- [Klyro](https://www.codeswithroh.online/projects/klyro): Out-predict the machine. Settled on-chain.
+
+## DeFi and markets
+- [Hourglass](https://www.codeswithroh.online/projects/hourglass): Buy an hour of GPU time as a token.
+- [Reckon](https://www.codeswithroh.online/projects/reckon): Stops the transaction before your wallet opens.
+- [Tape](https://www.codeswithroh.online/projects/tape-verified): Copy trading where every return is proven on-chain.
+- [Sextant](https://www.codeswithroh.online/projects/sextant): Finds a stock’s true price when the real market is closed.
+- [Yoldr](https://www.codeswithroh.online/projects/yoldr): You only lose the yield.
+- [LumenShield](https://www.codeswithroh.online/projects/lumenshield): Principal-protected FXRP and FAsset vaults.
+- [CrossShield](https://www.codeswithroh.online/projects/crossshield): Gold, BTC and real estate exposure with principal locked.
+- [ENSPay](https://www.codeswithroh.online/projects/enspay): Pay a .eth name. The receiver’s settings do the rest.
+- [Will.eth](https://www.codeswithroh.online/projects/will-eth): Beneficiaries watch the payout land in real time.
+
+## Privacy and proofs
+- [Hall Monitor](https://www.codeswithroh.online/projects/hall-monitor): Catches trackers on kids’ sites and seals the record on-chain.
+- [Nightfall](https://www.codeswithroh.online/projects/nightfall): Fog of war where even the server cannot see you.
+- [Veyl](https://www.codeswithroh.online/projects/veyl): Trade without your wallet becoming a target.
+- [ShieldLink](https://www.codeswithroh.online/projects/shieldlink): Pay a team without publishing the payroll.
+- [ClaimProof](https://www.codeswithroh.online/projects/claim-proof): Collect the payout without revealing the oracle reading.
+- [FHE Liar’s Dice](https://www.codeswithroh.online/projects/fhe-liars-dice): Not even the contract can see the dice.
+
+## Contact
+- Email: rohitpurkait001@gmail.com
+- GitHub: https://github.com/codeswithroh
+- X: https://x.com/codeswithroh
+- LinkedIn: https://linkedin.com/in/rohitpurkait
