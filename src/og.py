@@ -4,7 +4,7 @@ from playwright.sync_api import sync_playwright
 root = pathlib.Path(__file__).resolve().parent.parent; a = root/'assets'
 items = json.loads((a/'og/list.json').read_text())
 tints = dict(mint='#D6F0C4', butter='#F9DF8B', sky='#BCD3F2', pink='#F8C8DF', peach='#F9C9A6', lilac='#D9CFF5')
-FONT = f"@font-face{{font-family:F;src:url(file://{a}/fonts/fraunces-normal-300-700.woff2);font-weight:300 700}}@font-face{{font-family:F;font-style:italic;src:url(file://{a}/fonts/fraunces-italic-300-700.woff2);font-weight:300 700}}"
+FONT = f"@font-face{{font-family:F;src:url(file://{a}/fonts/zodiak-normal-var.woff2);font-weight:100 900}}@font-face{{font-family:F;font-style:italic;src:url(file://{a}/fonts/zodiak-italic-var.woff2);font-weight:100 900}}"
 def card(title, sub, tint, shot):
     img = f'<img src="file://{a}/shots/{shot}.webp" style="position:absolute;right:-40px;bottom:-60px;width:680px;border-radius:14px;transform:rotate(-3deg);box-shadow:0 20px 50px rgba(0,0,0,.25)">' if shot else ''
     w = '470px' if shot else '1040px'
@@ -18,7 +18,7 @@ with sync_playwright() as p:
     pg = br.new_page(viewport={'width':1200,'height':630})
     def snap(html, name):
         f = a/'og/_t.html'; f.write_text(html); pg.goto(f'file://{f}'); pg.wait_for_timeout(120); pg.screenshot(path=str(a/f'og/{name}.jpg'), type='jpeg', quality=82)
-    snap(card('Rohit Purkait', 'AI engineer and developer advocate. Creator of Tastemaker.', '#F7F2E8', 'tastemaker'), 'home')
+    snap(card('Rohit Purkait', 'Growth engineer, AI engineer, social media strategist. 20+ hackathons won.', '#F7F2E8', 'tastemaker'), 'home')
     for it in items: snap(card(it['name'], it['tagline'], tints[it['tint']], it['slug'] if it['shot'] else None), it['slug'])
     (a/'og/_t.html').unlink()
     for s, n in [(32,'favicon-32.png'),(180,'apple-touch-icon.png'),(192,'icon-192.png'),(512,'icon-512.png')]:

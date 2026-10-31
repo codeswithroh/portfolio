@@ -12,7 +12,7 @@ const EMAIL = 'rohitpurkait001@gmail.com';
 const imageRank = ['nightfall', 'klyro', 'bhoot', 'streamreach', 'pitch-video', 'tastemaker', 'tape-verified', 'foundrproof', 'pakka', 'hall-monitor', 'handshake', 'overturn', 'mergepay', 'tracegate', 'drift', 'sextant', 'cofoundr', 'hourglass', 'baad-mein', 'capp', 'will-eth', 'yoldr', 'lumenshield'];
 const rank = (p) => { const i = imageRank.indexOf(p.slug); return i >= 0 ? i : existsSync(join(root, `assets/shots/${p.slug}.webp`)) ? imageRank.length : imageRank.length + 1; };
 projects.sort((a, b) => rank(a) - rank(b));
-const facts = { stars: 509, forks: 53, repos2026: 65, chains: 18, awards: 3 };
+const facts = { stars: 509, forks: 53, repos2026: 65, chains: 18, hackathons: 20 };
 
 const links = {
   github: 'https://github.com/codeswithroh', x: 'https://x.com/codeswithroh',
@@ -35,6 +35,7 @@ const education = [
   { name: 'Techno Main Salt Lake', what: 'BTech in Electrical Engineering, GPA 8.6', when: '2020 to 2024' },
 ];
 const skills = {
+  'Growth': ['Growth engineering', 'Social media strategy', 'Short-form video', 'SEO', 'Launch campaigns', 'Developer content'],
   'AI and LLMs': ['RAG', 'Agent pipelines', 'MCP', 'Multi-agent systems', 'Vector search', 'On-device models'],
   'Web3': ['EVM', 'Flow and Cadence', 'Polkadot and XCM', 'DeFi', 'ENS', 'Foundry'],
   'Languages': ['TypeScript', 'Python', 'Solidity', 'Cadence', 'Rust'],
@@ -59,12 +60,12 @@ const mark = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><p
 
 const person = {
   '@type': 'Person', '@id': `${SITE}/#person`, name: 'Rohit Purkait', alternateName: 'codeswithroh', url: `${SITE}/`,
-  image: `${SITE}/assets/rohit-purkait.jpg`, email: `mailto:${EMAIL}`, jobTitle: 'Developer Relations Engineer',
-  description: 'AI engineer and developer advocate. Creator of Tastemaker, a Claude Code skill with 509 GitHub stars.',
+  image: `${SITE}/assets/rohit-purkait.jpg`, email: `mailto:${EMAIL}`, jobTitle: ['Growth Engineer', 'AI Engineer', 'Social Media Strategist', 'Developer Relations Engineer'],
+  description: 'Growth engineer, AI engineer and social media strategist. Won 20+ hackathons. Creator of Tastemaker, a Claude Code skill with 509 GitHub stars.',
   worksFor: { '@type': 'Organization', name: 'BlokCapital' },
   alumniOf: [{ '@type': 'CollegeOrUniversity', name: 'Indian Institute of Technology Madras' }, { '@type': 'CollegeOrUniversity', name: 'Techno Main Salt Lake' }],
-  knowsAbout: ['AI agents', 'Model Context Protocol', 'Claude Code skills', 'On-device AI', 'Developer relations', 'Solidity', 'DeFi', 'TypeScript'],
-  award: awards.slice(0, 3).map((a) => `${a.name}: ${a.what}`),
+  knowsAbout: ['Growth engineering', 'Social media strategy', 'Short-form video', 'SEO', 'AI agents', 'Model Context Protocol', 'Claude Code skills', 'On-device AI', 'Developer relations', 'Solidity', 'DeFi', 'TypeScript'],
+  award: ['Winner of 20+ hackathons', ...awards.slice(0, 3).map((a) => `${a.name}: ${a.what}`)],
   sameAs: [links.github, links.x, links.linkedin, links.youtube, 'https://github.com/CodeswithrohStudio'],
 };
 
@@ -103,16 +104,17 @@ function layout({ path, title, desc, body, jsonld = [], active, og = '/assets/og
 <link rel="manifest" href="/site.webmanifest">
 <link rel="me" href="${links.github}">
 <link rel="me" href="${links.x}">
-<link rel="preload" href="/assets/fonts/fraunces-italic-300-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/zodiak-italic-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/site.css">
 ${jsonld.map(ld).join('\n')}
 </head>
 <body>
+<div class="bar" aria-hidden="true"></div>
 <a class="skip" href="#main">Skip to content</a>
 <nav class="nav" aria-label="Main">
 <a class="brand" href="/" aria-label="Rohit Purkait, home">${mark}<span class="hide">rohit</span></a>
 ${nav}
-<a class="cta" href="/#contact">Contact</a>
+<a class="cta" href="/#contact">Hire me</a>
 </nav>
 <main id="main">
 ${body}
@@ -132,28 +134,42 @@ const pcard = (p) => `<a class="pcard t-${tint(p)}" data-c="${p.cat}" href="/pro
 <div class="th">${hasShot(p) ? shot(p) : `<div class="code">${esc(p.name)}</div>`}</div>
 <div class="b"><h3>${esc(p.name)}</h3><p>${esc(p.tagline)}</p><span class="mono">${esc(p.stat)}</span></div></a>`;
 const contact = `<section class="wrap sec" id="contact"><div class="contact" data-r>
-<h2>Building something with AI or crypto?</h2>
-<p>I’m open to DevRel roles, video work and hard technical builds. I reply fast.</p>
+<h2>Need someone who builds it and sells it?</h2>
+<p>I’m open to growth, social and DevRel roles, plus hard technical builds. I reply fast.</p>
 <div class="btns" style="justify-content:center"><a class="btn" href="mailto:${EMAIL}">${icon('mail')} ${EMAIL}</a><a class="btn alt" href="${links.x}">DM on X</a></div>
 </div></section>`;
 
 // Home
 const by = Object.fromEntries(projects.map((p) => [p.slug, p]));
 const featured = projects.filter((p) => p.featured).sort((a, b) => a.featured - b.featured);
-const pills = [['Claude Code', 0, 8, -6], ['MCP', 46, 0, 8], ['Solidity', 8, 34, 5], ['Gemma', 60, 30, -8], ['TypeScript', 22, 62, -4], ['Rust', 72, 60, 7]];
+const pills = ['Growth', 'Claude Code', 'Short video', 'MCP', 'Solidity', 'SEO', 'Gemma', 'TypeScript', 'Rust', 'X threads', 'Next.js'];
+const marquee = ['Growth engineering', 'Social media strategy', 'AI agents', 'Short-form video', 'SEO', 'Launch campaigns', 'On-device AI', 'Developer content', 'Onchain apps'];
+function starChart() {
+  const days = readFileSync(join(root, 'src/stars.txt'), 'utf8').trim().split('\n');
+  const start = new Date(days[0]), end = new Date(days.at(-1)), span = (end - start) / 864e5;
+  const counts = {}; days.forEach((d) => { counts[d] = (counts[d] || 0) + 1; });
+  const W = 620, H = 170, pts = []; let total = 0, peak = ['', 0, 0, 0];
+  for (let i = 0; i <= span; i++) {
+    const d = new Date(+start + i * 864e5).toISOString().slice(0, 10), c = counts[d] || 0; total += c;
+    const x = +(i / span * W).toFixed(1), y = +(H - total / days.length * H).toFixed(1); pts.push(`${x},${y}`);
+    if (c > peak[1]) peak = [d, c, x, y];
+  }
+  return `<svg viewBox="0 -14 ${W} ${H + 36}" role="img" aria-label="Line chart of Tastemaker GitHub stars rising from 0 in July 2026 to ${facts.stars} in October 2026, with a jump of ${peak[1]} stars on one day in August."><polygon class="ar" points="0,${H} ${pts.join(' ')} ${W},${H}"/><polyline class="ln" pathLength="1" points="${pts.join(' ')}"/><g class="pkg"><circle cx="${peak[2]}" cy="${peak[3]}" r="5" fill="#201C17"/><text class="pk" x="${peak[2] - 12}" y="${peak[3] - 10}" text-anchor="end">+${peak[1]} in a day</text><circle cx="${W}" cy="0" r="5" fill="#D9502A"/></g><text class="ax" x="0" y="${H + 18}">Jul 2026</text><text class="ax" x="${W}" y="${H + 18}" text-anchor="end">Oct 2026</text></svg>`;
+}
 const home = layout({
-  path: '/', title: 'Rohit Purkait | AI Engineer and Developer Advocate',
-  desc: 'Rohit Purkait (codeswithroh) builds AI agents, on-device AI apps and onchain products. Creator of Tastemaker, a Claude Code skill with 509 GitHub stars.',
+  path: '/', title: 'Rohit Purkait | Growth Engineer and AI Engineer',
+  desc: 'Rohit Purkait (codeswithroh) is a growth engineer, AI engineer and social media strategist. 20+ hackathons won. Built Tastemaker, 509 GitHub stars.',
   jsonld: [{ '@context': 'https://schema.org', '@graph': [person, { '@type': 'WebSite', '@id': `${SITE}/#site`, url: `${SITE}/`, name: 'Rohit Purkait', alternateName: 'codeswithroh', publisher: { '@id': `${SITE}/#person` } }] }],
   body: `
 <header class="wrap hero">
-<h1>Rohit Purkait<span>AI engineer &amp; developer advocate</span></h1>
-<p class="sub">I build agent tools, on-device AI and onchain apps, ${facts.repos2026} public repos so far in 2026, and then show other developers how they work.</p>
+<h1>Rohit Purkait<span class="roles"><b class="on">Growth engineer</b><b>AI engineer</b><b>Social media strategist</b></span></h1>
+<p class="sub">I build the product, then I get it seen. ${facts.hackathons}+ hackathons won, ${facts.stars} stars on my last launch, and every video made by me.</p>
+<div class="btns"><a class="btn" href="/#contact">Hire me</a><a class="btn alt" href="/#growth">See the growth</a></div>
 <div class="pocket">
-<a class="card" style="left:0;--rot:-7deg" href="/projects/tastemaker"><img src="/assets/shots/tastemaker.webp" width="960" height="600" alt="Tastemaker landing page"></a>
-<a class="card" style="left:21%;--rot:-2deg;bottom:84px;--pos:0 0" href="/projects/nightfall"><img src="/assets/shots/nightfall.webp" width="960" height="600" alt="Nightfall battle royale game"></a>
-<div class="card note" style="left:44%;--rot:3deg;bottom:80px">Currently building agents that get paid, and models that stay on your phone.</div>
-<a class="card" style="left:67%;--rot:7deg;--pos:50% 40%" href="/about"><img src="/assets/rohit-purkait.jpg" width="460" height="460" alt="Rohit Purkait looking up at the sky"></a>
+<a class="card" style="left:0;--rot:-7deg;--i:0" href="/projects/tastemaker"><img src="/assets/shots/tastemaker.webp" width="960" height="600" alt="Tastemaker landing page"></a>
+<a class="card" style="left:21%;--rot:-2deg;bottom:84px;--pos:0 0;--i:1" href="/projects/nightfall"><img src="/assets/shots/nightfall.webp" width="960" height="600" alt="Nightfall battle royale game"></a>
+<div class="card note" style="left:44%;--rot:3deg;bottom:80px;--i:2">Half engineer, half growth. I write the code and the thread that sells it.</div>
+<a class="card" style="left:67%;--rot:7deg;--pos:50% 40%;--i:3" href="/about"><img src="/assets/rohit-purkait.jpg" width="460" height="460" alt="Rohit Purkait looking up at the sky"></a>
 <div class="flap" aria-hidden="true">namaste</div>
 </div>
 <nav class="dock" aria-label="Find me elsewhere">
@@ -166,24 +182,36 @@ const home = layout({
 </nav>
 </header>
 
+<div class="marq" aria-hidden="true"><div>${[0, 1].map(() => `<ul>${marquee.map((m) => `<li>${m}</li>`).join('')}</ul>`).join('')}</div></div>
+
 <section class="wrap sec" aria-label="Numbers">
 <div class="stats" data-r>
-<div><strong>${facts.stars}</strong><span>GitHub stars on Tastemaker</span></div>
-<div><strong>${facts.repos2026}</strong><span>public repos in 2026</span></div>
-<div><strong>${facts.chains}</strong><span>chains shipped on</span></div>
-<div><strong>${facts.awards}</strong><span>hackathon awards</span></div>
+<div><strong data-n="${facts.hackathons}" data-s="+">${facts.hackathons}+</strong><span>hackathons won</span></div>
+<div><strong data-n="${facts.stars}">${facts.stars}</strong><span>GitHub stars on Tastemaker</span></div>
+<div><strong data-n="${facts.repos2026}">${facts.repos2026}</strong><span>public repos in 2026</span></div>
+<div><strong data-n="${facts.chains}">${facts.chains}</strong><span>chains shipped on</span></div>
 </div>
+</section>
+
+<section class="wrap" style="padding-bottom:72px" id="growth">
+<div class="sec-head" data-r><h2>I ship it, then I get it <em>seen</em></h2></div>
+<div class="growth">
+<div class="chart" data-r><span class="mono">Tastemaker, GitHub stars</span><h3>0 to ${facts.stars} in under four months</h3>${starChart()}<div class="does">${['Growth engineering', 'Social media strategy', 'Short-form video', 'SEO', 'Launch campaigns'].map((x) => `<span>${x}</span>`).join('')}</div></div>
+<div class="side-t">
+<a class="gt t-butter" href="/projects/cofoundr" data-r><strong>500+</strong><p>organic users on cofoundr with zero paid acquisition.</p></a>
+<a class="gt t-pink" href="/proof-of-work" data-r><strong>6 videos</strong><p>Scripted, filmed, edited and posted solo, sponsors included.</p></a>
+</div></div>
 </section>
 
 <section class="wrap" aria-label="About">
 <div class="bento" data-r>
-<a class="tile t-folder" href="/about"><div class="fold"><h3>About me</h3><span aria-hidden="true">${icon('arrow-right')}</span></div></a>
+<a class="tile t-folder" href="/about"><div class="sheet">rohit_resume_final_v3</div><div class="fold"><h3>About me</h3><span aria-hidden="true">${icon('arrow-right')}</span></div></a>
 <a class="tile t-tomato" href="/projects/chithi"><p>My mom reads Bengali, not English. So I built Chithi: point a phone at a bill and hear it in your language.</p><span class="u">22 Indian languages ${icon('arrow-up-right')}</span></a>
 <div class="tile t-photo"><img src="/assets/rohit-purkait.jpg" width="460" height="460" alt="Rohit Purkait outdoors under a cloudy sky" loading="lazy"></div>
-<div class="tile t-status"><ul><li><span><i class="dot"></i>Open to</span><span>DevRel, video</span></li><li><span>Local</span><span id="clock">IST</span></li><li><span>Online as</span><span>codeswithroh</span></li></ul><h3>I reply fast</h3></div>
+<div class="tile t-status"><ul><li><span><i class="dot"></i>Open to</span><span>Growth, DevRel</span></li><li><span>Local</span><span id="clock">IST</span></li><li><span>Online as</span><span>codeswithroh</span></li></ul><h3>I reply fast</h3></div>
 <div class="tile t-role"><span class="mono">Current role</span><h3>DevRel Engineer at BlokCapital</h3></div>
-<div class="tile t-skills"><h3 style="max-width:7em">What I work in</h3><div class="pills" aria-label="Skills">${pills.map(([t, l, tp, r]) => `<span style="left:${l}%;top:${tp}%;transform:rotate(${r}deg)">${t}</span>`).join('')}</div></div>
-<a class="tile t-video" href="/proof-of-work"><h3>Six videos, all solo</h3><span class="mono" style="color:var(--ink)">Script, film, edit, post ${icon('arrow-right')}</span></a>
+<div class="tile t-skills"><h3>What I work in</h3><span class="mono">Throw them around</span><div class="pills" aria-label="Skills">${pills.map((t) => `<span>${t}</span>`).join('')}</div></div>
+<a class="tile t-video" href="/about"><h3>${facts.hackathons}+ hackathons won</h3><span class="mono" style="color:var(--ink)">EthGlobal, PL_Genesis, SEBI and more ${icon('arrow-right')}</span></a>
 </div>
 </section>
 
@@ -204,7 +232,7 @@ ${featured.map((p) => `<article class="case t-${tint(p)}" data-r>
 <section class="wrap sec" aria-label="Experience and awards">
 <div class="two">
 <div class="panel" data-r><h3>Work log</h3><ul class="tl">${experience.map((e) => `<li><b>${e.co}</b><span>${e.role}</span><span class="mono">${e.when}</span></li>`).join('')}</ul></div>
-<div class="panel" data-r><h3>Awards</h3><ul class="tl">${awards.map((e) => `<li><b>${e.name}</b><span>${e.what}</span><span class="mono">${e.when}</span></li>`).join('')}</ul></div>
+<div class="panel" data-r><h3>${facts.hackathons}+ hackathon wins, including</h3><ul class="tl">${awards.map((e) => `<li><b>${e.name}</b><span>${e.what}</span><span class="mono">${e.when}</span></li>`).join('')}</ul></div>
 </div>
 </section>
 ${contact}`,
@@ -252,13 +280,14 @@ ${contact}`,
 
 // About
 const about = layout({
-  path: '/about', active: 'about', title: 'About Rohit Purkait | AI Engineer and DevRel, IIT Madras', type: 'profile',
-  desc: 'Rohit Purkait is an AI engineer and Developer Relations Engineer at BlokCapital. IIT Madras data science graduate, EthGlobal 2025 winner, creator of Tastemaker.',
+  path: '/about', active: 'about', title: 'About Rohit Purkait | Growth Engineer, AI Engineer, IIT Madras', type: 'profile',
+  desc: 'Rohit Purkait is a growth engineer, AI engineer and social media strategist with 20+ hackathon wins. IIT Madras data science graduate, creator of Tastemaker.',
   jsonld: [{ '@context': 'https://schema.org', '@type': 'ProfilePage', url: `${SITE}/about`, mainEntity: person }],
-  body: `<header class="wrap page-h"><h1>About <em>Rohit</em></h1><p class="lead">I’m an AI engineer and developer advocate from India. Online I’m codeswithroh.</p></header>
+  body: `<header class="wrap page-h"><h1>About <em>Rohit</em></h1><p class="lead">I’m a growth engineer, AI engineer and social media strategist from India. Online I’m codeswithroh.</p></header>
 <section class="wrap detail" style="padding-top:0">
 <div class="prose">
-<p>I build products fast and in public: ${facts.repos2026} public repos so far in 2026, across agent tools, on-device AI and onchain apps. My most used project is <a href="/projects/tastemaker">Tastemaker</a>, a skill that stops coding agents shipping the same generic UI. It has ${facts.stars} GitHub stars and ${facts.forks} forks.</p>
+<p>I do both halves of a launch. I build the product, and I run what gets it noticed: social strategy, short video, SEO and developer content. I’ve won ${facts.hackathons}+ hackathons along the way.</p>
+<p>I build fast and in public: ${facts.repos2026} public repos so far in 2026, across agent tools, on-device AI and onchain apps. My most used project is <a href="/projects/tastemaker">Tastemaker</a>, a skill that stops coding agents shipping the same generic UI. It has ${facts.stars} GitHub stars and ${facts.forks} forks.</p>
 <p>One idea runs through most of it: software should check its own work. In Pakka and Baad Mein the model reads and code verifies. In MergePay and Handshake the contract checks the work before money moves. In Bhoot, git vouches for every claim. Models are good enough to act now, and the useful question is who verifies them.</p>
 <p>By day I’m a Developer Relations Engineer at BlokCapital, where I write the docs, SDK guides and reference code that get outside developers to a first integration. Before that I built neobanking backends at Orbitxpay and frontends at Metaborong.</p>
 <p>I also make videos. I write, film, edit and post them myself, and you can see <a href="/proof-of-work">six of them here</a>. Lately I’ve been drawn to small tools for real people, like <a href="/projects/chithi">Chithi</a>, which reads bills aloud for my family in Bengali, and <a href="/projects/pakka">Pakka</a>, which turns a home baker’s WhatsApp orders into a bake sheet.</p>
@@ -267,7 +296,7 @@ const about = layout({
 </section>
 <section class="wrap" style="padding-bottom:14px"><div class="panel"><h2 style="font-size:30px;margin-bottom:12px">Experience</h2><ul class="tl">${experience.map((e) => `<li><b>${e.co}</b><span>${e.role}</span><span class="mono">${e.when}</span><p>${e.note}</p></li>`).join('')}</ul></div></section>
 <section class="wrap" style="padding-bottom:14px"><div class="two">
-<div class="panel"><h2 style="font-size:30px;margin-bottom:12px">Awards</h2><ul class="tl">${awards.map((e) => `<li><b>${e.name}</b><span>${e.what}</span><span class="mono">${e.when}</span></li>`).join('')}</ul></div>
+<div class="panel"><h2 style="font-size:30px;margin-bottom:12px">${facts.hackathons}+ hackathon wins, including</h2><ul class="tl">${awards.map((e) => `<li><b>${e.name}</b><span>${e.what}</span><span class="mono">${e.when}</span></li>`).join('')}</ul></div>
 <div class="panel"><h2 style="font-size:30px;margin-bottom:12px">Education</h2><ul class="tl">${education.map((e) => `<li><b>${e.name}</b><span>${e.what}</span><span class="mono">${e.when}</span></li>`).join('')}</ul></div>
 </div></section>
 <section class="wrap"><div class="skills">${Object.entries(skills).map(([k, v]) => `<div class="panel"><h2 style="font-size:23px;margin-bottom:10px">${k}</h2><div class="stack">${v.map((s) => `<span>${s}</span>`).join('')}</div></div>`).join('')}</div></section>
@@ -298,6 +327,6 @@ const urls = ['/', '/projects', '/about', '/proof-of-work', ...projects.map((p) 
 out('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u === '/' ? '/' : u}</loc><lastmod>${TODAY}</lastmod></url>`).join('\n')}\n</urlset>\n`);
 out('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 out('site.webmanifest', JSON.stringify({ name: 'Rohit Purkait', short_name: 'Rohit', start_url: '/', display: 'browser', background_color: '#F7F2E8', theme_color: '#F7F2E8', icons: [{ src: '/assets/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/assets/icon-512.png', sizes: '512x512', type: 'image/png' }] }));
-out('llms.txt', `# Rohit Purkait\n\n> AI engineer and developer advocate, online as codeswithroh. Developer Relations Engineer at BlokCapital. Creator of Tastemaker, a Claude Code skill with ${facts.stars} GitHub stars.\n\n## Pages\n- [About](${SITE}/about): background, experience, awards, education\n- [Projects](${SITE}/projects): every project\n- [Videos](${SITE}/proof-of-work): developer video work\n\n${Object.entries(categories).map(([k, c]) => `## ${c.label}\n${projects.filter((p) => p.cat === k).map((p) => `- [${p.name}](${SITE}/projects/${p.slug}): ${p.tagline}`).join('\n')}`).join('\n\n')}\n\n## Contact\n- Email: ${EMAIL}\n- GitHub: ${links.github}\n- X: ${links.x}\n- LinkedIn: ${links.linkedin}\n`);
+out('llms.txt', `# Rohit Purkait\n\n> Growth engineer, AI engineer and social media strategist, online as codeswithroh. Winner of 20+ hackathons. Developer Relations Engineer at BlokCapital. Creator of Tastemaker, a Claude Code skill with ${facts.stars} GitHub stars.\n\n## Pages\n- [About](${SITE}/about): background, experience, awards, education\n- [Projects](${SITE}/projects): every project\n- [Videos](${SITE}/proof-of-work): developer video work\n\n${Object.entries(categories).map(([k, c]) => `## ${c.label}\n${projects.filter((p) => p.cat === k).map((p) => `- [${p.name}](${SITE}/projects/${p.slug}): ${p.tagline}`).join('\n')}`).join('\n\n')}\n\n## Contact\n- Email: ${EMAIL}\n- GitHub: ${links.github}\n- X: ${links.x}\n- LinkedIn: ${links.linkedin}\n`);
 if (process.argv[2] === '--og') writeFileSync(join(root, 'assets/og/list.json'), JSON.stringify(projects.map((p) => ({ slug: p.slug, name: p.name, tagline: p.tagline, tint: tint(p), shot: hasShot(p) }))));
 console.log(`built ${urls.length} pages`);
