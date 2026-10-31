@@ -8,6 +8,10 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://www.codeswithroh.online';
 const TODAY = new Date().toISOString().slice(0, 10);
 const EMAIL = 'rohitpurkait001@gmail.com';
+// Display order: strongest screenshots first, then any other screenshot, then projects with no image.
+const imageRank = ['nightfall', 'klyro', 'bhoot', 'streamreach', 'pitch-video', 'tastemaker', 'tape-verified', 'foundrproof', 'pakka', 'hall-monitor', 'handshake', 'overturn', 'mergepay', 'tracegate', 'drift', 'sextant', 'cofoundr', 'hourglass', 'baad-mein', 'capp', 'will-eth', 'yoldr', 'lumenshield'];
+const rank = (p) => { const i = imageRank.indexOf(p.slug); return i >= 0 ? i : existsSync(join(root, `assets/shots/${p.slug}.webp`)) ? imageRank.length : imageRank.length + 1; };
+projects.sort((a, b) => rank(a) - rank(b));
 const facts = { stars: 509, forks: 53, repos2026: 65, chains: 18, awards: 3 };
 
 const links = {
